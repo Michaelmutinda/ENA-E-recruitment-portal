@@ -1,0 +1,177 @@
+﻿@model List<Afidep_E_Recruitment.Controllers.HomeController.AvailableJobs>
+
+@{
+    ViewBag.Title = "Available Jobs";
+}
+
+<style>
+    .page-title {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: #6A1B9A;
+        margin-bottom: 25px;
+    }
+
+    .job-card {
+        background: #ffffff;
+        border-radius: 14px;
+        padding: 20px 22px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        margin-bottom: 20px;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+        .job-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+        }
+
+    .job-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .job-meta {
+        font-size: 0.9rem;
+        color: #666;
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+        .job-meta span i {
+            color: #6A1B9A;
+            margin-right: 5px;
+        }
+
+    .job-actions {
+        margin-top: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .share-link-box {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex: 1;
+    }
+
+        .share-link-box input {
+            flex: 1;
+            padding: 6px 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            color: #555;
+            background: #f9f9f9;
+            min-width: 0;
+        }
+
+        .share-link-box button {
+            background: #f3e5f5;
+            color: #6A1B9A;
+            border: 1px solid #ce93d8;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.2s;
+        }
+
+            .share-link-box button:hover {
+                background: #e1bee7;
+            }
+
+    .btn-view {
+        background: #6A1B9A;
+        color: #fff;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: background 0.2s;
+        white-space: nowrap;
+    }
+
+        .btn-view:hover {
+            background: #4a148c;
+        }
+
+    .empty-state {
+        background: #fff;
+        border-radius: 12px;
+        padding: 40px;
+        text-align: center;
+        color: #777;
+        box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+    }
+</style>
+
+<h1 class="page-title">Available Jobs</h1>
+
+@if (Model != null && Model.Any())
+{
+    foreach (var job in Model)
+    {
+        string shareLink = Url.Action("PublicJobDetails", "Home",
+            new { requestid = job.requestid },
+            protocol: Request.Url.Scheme);
+
+        <div class="job-card">
+            <div class="job-title">@job.jobdescription</div>
+
+            <div class="job-meta">
+                <span>
+                    <i class="fa fa-calendar"></i>
+                    Posted: @job.postingdate.ToString("dd MMM yyyy")
+                </span>
+                <span>
+                    <i class="fa fa-clock-o"></i>
+                    Closing: @job.closingdate.ToString("dd MMM yyyy")
+                </span>
+            </div>
+
+            <div class="job-actions">
+
+                <!-- Shareable link for social media posters -->
+                <div class="share-link-box">
+                    <input type="text"
+                           value="@shareLink"
+                           readonly
+                           onclick="this.select();"
+                           title="Copy this link for social media adverts" />
+                    <button onclick="
+                        navigator.clipboard.writeText('@shareLink');
+                        this.innerText = '✓ Copied';
+                        var btn = this;
+                        setTimeout(function(){ btn.innerText = 'Copy Link'; }, 2000);
+                    ">
+                        Copy Link
+                    </button>
+                </div>
+
+                <!-- View Job button -->
+                <button class="btn-view"
+                        onclick="window.location.href='@Url.Action("Index", "Job", new { requestid = job.requestid })'">
+                    View Job
+                </button>
+
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="empty-state">
+        <h4>No Available Jobs</h4>
+        <p>Please check back later for new opportunities.</p>
+    </div>
+}

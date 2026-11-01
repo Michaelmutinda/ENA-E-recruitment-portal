@@ -1,0 +1,68 @@
+﻿@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<div class="loginbox-header">
+    <h2 style="margin-bottom:20px; color:#6A1B9A; font-weight:600;">
+        Applicant Login
+    </h2>
+</div>
+
+<!-- Alerts -->
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-error">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<!-- Login form -->
+@using (Html.BeginForm("LoginForm", "Login", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <input type="text"
+               id="idnumber"
+               name="idnumber"
+               class="form-input"
+               placeholder="Email Address or ID Number"
+               required />
+    </div>
+
+    <div class="form-group">
+        <input type="password"
+               id="password"
+               name="password"
+               class="form-input"
+               placeholder="Password"
+               required />
+    </div>
+
+    <button type="submit" class="loginbutton">
+        Sign In
+    </button>
+
+    <div class="form-group" style="text-align:center; margin-top:18px;">
+        <p style="margin-bottom:8px;">
+            <a href="@Url.Action("Index", "ResetPassword")">
+                Forgot Password?
+            </a>
+        </p>
+
+        <p style="margin:0;">
+            Don’t have an account?
+            <a href="@Url.Action("Index", "Register")">
+                Register here
+            </a>
+        </p>
+    </div>
+}

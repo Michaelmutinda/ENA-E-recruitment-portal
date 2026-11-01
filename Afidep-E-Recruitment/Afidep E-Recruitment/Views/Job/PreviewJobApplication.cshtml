@@ -1,0 +1,588 @@
+﻿@model Afidep_E_Recruitment.Controllers.JobController.JobApplication
+
+@using Afidep_E_Recruitment.Models;
+
+@{
+    ViewBag.Title = $"Job Application({Model.applicationnumber})"; // Changed title to be more relevant
+}
+
+<style>
+    /* Custom styles for readonly fields */
+    input[readonly],
+    textarea[readonly],
+    select[readonly] {
+        background-color: #e9ecef; /* A light grey */
+        cursor: default; /* Indicates it's not editable */
+    }
+
+    /* Optional: for disabled fields as well if you want them to look similar */
+    input[disabled],
+    textarea[disabled],
+    select[disabled] {
+        background-color: #e9ecef;
+        cursor: not-allowed; /* Indicates it cannot be interacted with */
+    }
+
+    /* Add some styling for the PDF container to give it a visible area */
+    #PreviewContainer {
+        min-height: 500px; /* Give it a default height before content loads */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f8f9fa; /* Light background */
+        border: 1px solid #dee2e6; /* Light border */
+        border-radius: .25rem;
+    }
+</style>
+
+<main>
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="mb-4 text-primary">Job Application: @Model.applicationnumber</h2>
+            <p class="text-info-emphasis">Application Date: @Model.applicationdate.ToOrdinalDateString()</p>
+
+            @* Bootstrap Tabs Navigation *@
+            <ul class="nav nav-tabs mb-3" id="applicationTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="basic-info-tab" data-bs-toggle="tab" data-bs-target="#basic-info" type="button" role="tab" aria-controls="basic-info" aria-selected="true">1. Basic Information</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="academic-tab" data-bs-toggle="tab" data-bs-target="#academic" type="button" role="tab" aria-controls="academic" aria-selected="false" tabindex="-1">2. Academic Qualifications</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="experience-tab" data-bs-toggle="tab" data-bs-target="#experience" type="button" role="tab" aria-controls="experience" aria-selected="false" tabindex="-1">3. Experience</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="prof-course-tab" data-bs-toggle="tab" data-bs-target="#prof-course" type="button" role="tab" aria-controls="prof-course" aria-selected="false" tabindex="-1">4. Professional Courses</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="prof-membership-tab" data-bs-toggle="tab" data-bs-target="#prof-membership" type="button" role="tab" aria-controls="prof-membership" aria-selected="false" tabindex="-1">5. Professional Memberships</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="referees-tab" data-bs-toggle="tab" data-bs-target="#referees" type="button" role="tab" aria-controls="referees" aria-selected="false" tabindex="-1">6. Referees</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="attachments-tab" data-bs-toggle="tab" data-bs-target="#attachments" type="button" role="tab" aria-controls="attachments" aria-selected="false" tabindex="-1">7. Attachments</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="preview-tab" data-bs-toggle="tab" data-bs-target="#preview" type="button" role="tab" aria-controls="preview" aria-selected="false" tabindex="-1">8. Application Preview</button>
+                </li>
+            </ul>
+
+            @using (Html.BeginForm("ApplicantEducation", "Job", FormMethod.Post, new { @id = "jobApplicationForm" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+
+                @Html.HiddenFor(m => m.applicationnumber) @* Pass JobId along with the form *@
+
+
+                @* Bootstrap Tab Content *@
+                <div class="tab-content" id="applicationTabsContent">
+                    <div class="col-md-4 mb-1" style="display:none">
+                        @Html.TextBoxFor(m => m.applicationnumber)
+                    </div>
+                    @* Tab 1: Basic Information *@
+                    <div class="tab-pane fade show active" id="basic-info" role="tabpanel" aria-labelledby="basic-info-tab">
+                        <div class="card p-4 shadow-sm">
+                            <h5 class="card-title m-2">Basic Information</h5>
+                            <div class="row">
+                                <div class="col-md-4 mb-1">
+                                    <label for="personalinfo_firstname">First Name</label>
+                                    @Html.TextBoxFor(m => m.personalinfo.firstname, new { @class = "form-control", @placeholder = "Enter your first name", @required = "required", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(m => m.personalinfo.firstname, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-4 mb-1">
+                                    <label for="personalinfo_middlename">Middle Name</label>
+                                    @Html.TextBoxFor(m => m.personalinfo.middlename, new { @class = "form-control", @placeholder = "Enter your middle name", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(m => m.personalinfo.middlename, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-4 mb-1">
+                                    <label for="personalinfo_lastname">Last Name</label>
+                                    @Html.TextBoxFor(m => m.personalinfo.lastname, new { @class = "form-control", @placeholder = "Enter your last name", @required = "required", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(m => m.personalinfo.lastname, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 mb-1">
+                                    <label for="personalinfo_gender">Gender</label>
+                                    @Html.DropDownListFor(m => m.personalinfo.gender, (SelectList)ViewBag.GenderList, "Select Gender", new { @class = "form-select", @required = "required", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(m => m.personalinfo.gender, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-4 mb-1">
+                                    <label for="personalinfo_citizenship">Citizenship</label>
+                                    @Html.DropDownListFor(m => m.personalinfo.citizenship, ViewBag.CitizenshipOptions as SelectList, "Select Citizenship", new { @class = "form-select", @required = "required", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(m => m.personalinfo.citizenship, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 mb-1">
+                                    <label for="personalinfo_specialneeds">Do you have any Special Needs?</label>
+                                    @Html.DropDownListFor(m => m.personalinfo.specialneeds, ViewBag.DisbalingOptions as SelectList, "Select Option", new { @class = "form-select", @required = "required", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(m => m.personalinfo.specialneeds, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-4 mb-1">
+                                    <label for="personalinfo_disabilitydetails">Disability Details (if any)</label>
+                                    @Html.TextBoxFor(m => m.personalinfo.disabilitydetails, new { @class = "form-control", @placeholder = "Details of disability (if any)", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(m => m.personalinfo.disabilitydetails, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <h5 class="card-title m-2">Contact Information</h5>
+                            <div class="row">
+                                <div class="col-md-4 mb-1">
+                                    <label for="personalinfo_email">E-Mail</label>
+                                    @Html.TextBoxFor(m => m.personalinfo.email, new { @class = "form-control", @placeholder = "Enter your email", @type = "email", @required = "required", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(m => m.personalinfo.email, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-4 mb-1">
+                                    <label for="personalinfo_telephone">Phone Number</label>
+                                    @Html.TextBoxFor(m => m.personalinfo.telephone, new { @class = "form-control", @placeholder = "Enter your phone number", @type = "tel", @required = "required", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(m => m.personalinfo.telephone, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-end mt-4">
+                                <button type="button" class="btn btn-primary next-tab">Next <i class="bi bi-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    @* Tab 2: Academic Qualifications *@
+                    <div class="tab-pane fade" id="academic" role="tabpanel" aria-labelledby="academic-tab">
+                        <div class="card p-4 shadow-sm">
+                            <h5 class="card-title mb-4">Academic Qualifications</h5>
+                            <div id="academicQualificationsContainer">
+                                @if (Model.academicqualifications != null && Model.academicqualifications.Any())
+                                {
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered table-hover">
+                                            <thead class="table-dark">
+                                                <tr>
+                                                    <th scope="col">Level of Study</th>
+                                                    <th scope="col">Course Name</th>
+                                                    <th scope="col">Institution</th>
+                                                    <th scope="col">Country</th>
+                                                    <th scope="col">Start Date</th>
+                                                    <th scope="col">End Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @for (int i = 0; i < Model.academicqualifications.Count; i++)
+                                                {
+                                                    <tr>
+                                                        <td>@Model.academicqualifications[i].educationlevel</td>
+                                                        <td>@Model.academicqualifications[i].coursename</td>
+                                                        <td>@Model.academicqualifications[i].institutionname</td>
+                                                        <td>@Model.academicqualifications[i].country</td>
+                                                        <td>@Model.academicqualifications[i].startdate.ToOrdinalDateString()</td>
+                                                        <td>@Model.academicqualifications[i].enddate.ToOrdinalDateString()</td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <hr />
+                                }
+                                else
+                                {
+                                    <div class="alert alert-info" role="alert">
+                                        No Academic Qualifications found.
+                                    </div>
+                                }
+                            </div>
+
+
+                            <div class="d-flex justify-content-between mt-4">
+                                <button type="button" class="btn btn-secondary prev-tab"><i class="bi bi-arrow-left me-2"></i> Previous</button>
+                                <button type="button" class="btn btn-primary next-tab">Next <i class="bi bi-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    @* Tab 3: Work Experience *@
+                    <div class="tab-pane fade" id="experience" role="tabpanel" aria-labelledby="experience-tab">
+                        <div class="card p-4 shadow-sm">
+                            <h5 class="card-title mb-4">Work Experience</h5>
+
+                            <div id="experiencesContainer">
+                                @if (Model.experiences != null && Model.experiences.Any())
+                                {
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered table-hover">
+                                            <thead class="table-dark">
+                                                <tr>
+                                                    <th scope="col">Job Title</th>
+                                                    <th scope="col">Employer</th>
+                                                    <th scope="col">Start Date</th>
+                                                    <th scope="col">End Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @for (int i = 0; i < Model.experiences.Count; i++)
+                                                {
+                                                    <tr>
+                                                        <td>@Model.experiences[i].jobtitle</td>
+                                                        <td>@Model.experiences[i].employer</td>
+                                                        <td>@Model.experiences[i].startdate.ToOrdinalDateString()</td>
+                                                        @if (Model.experiences[i].presentemployer == "Yes")
+                                                        {
+                                                            <td>Present Employer</td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td>@Model.experiences[i].enddate.ToOrdinalDateString()</td>
+                                                        }
+
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <hr />
+                                }
+                                else
+                                {
+                                    <div class="alert alert-info" role="alert">
+                                        No Work Experience found.
+                                    </div>
+                                }
+                            </div>
+
+
+                            <div class="d-flex justify-content-between mt-4">
+                                <button type="button" class="btn btn-secondary prev-tab"><i class="bi bi-arrow-left me-2"></i> Previous</button>
+                                <button type="button" class="btn btn-primary next-tab">Next <i class="bi bi-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    @* Tab 4: Professional Courses *@
+                    <div class="tab-pane fade" id="prof-course" role="tabpanel" aria-labelledby="prof-course-tab">
+                        <div class="card p-4 shadow-sm">
+                            <h5 class="card-title mb-4">Professional Courses</h5>
+
+                            <div id="professionalCoursesContainer">
+                                @if (Model.profqualifications != null && Model.profqualifications.Any())
+                                {
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered table-hover">
+                                            <thead class="table-dark">
+                                                <tr>
+                                                    <th scope="col">Qualification</th>
+                                                    <th scope="col">Section/Level</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @for (int i = 0; i < Model.profqualifications.Count; i++)
+                                                {
+                                                    <tr>
+                                                        <td>@Model.profqualifications[i].description</td>
+                                                        <td>@Model.profqualifications[i].level</td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <hr />
+                                }
+                                else
+                                {
+                                    <div class="alert alert-info" role="alert">
+                                        No Professional Courses found.
+                                    </div>
+                                }
+                            </div>
+
+
+
+                            <div class="d-flex justify-content-between mt-4">
+                                <button type="button" class="btn btn-secondary prev-tab"><i class="bi bi-arrow-left me-2"></i> Previous</button>
+                                <button type="button" class="btn btn-primary next-tab">Next <i class="bi bi-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    @* Tab 5: Professional Memberships *@
+                    <div class="tab-pane fade" id="prof-membership" role="tabpanel" aria-labelledby="prof-membership-tab">
+                        <div class="card p-4 shadow-sm">
+                            <h5 class="card-title mb-4">Professional Memberships</h5>
+
+                            <div id="professionalMembershipsContainer">
+                                @if (Model.profmembership != null && Model.profmembership.Any())
+                                {
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered table-hover">
+                                            <thead class="table-dark">
+                                                <tr>
+                                                    <th scope="col">Professional Body</th>
+                                                    <th scope="col">Membership Number</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @for (int i = 0; i < Model.profmembership.Count; i++)
+                                                {
+                                                    <tr>
+                                                        <td>@Model.profmembership[i].profbody</td>
+                                                        <td>@Model.profmembership[i].memberno</td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <hr />
+                                }
+                                else
+                                {
+                                    <div class="alert alert-info" role="alert">
+                                        No Professional Memberships found.
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="d-flex justify-content-between mt-4">
+                                <button type="button" class="btn btn-secondary prev-tab"><i class="bi bi-arrow-left me-2"></i> Previous</button>
+                                <button type="button" class="btn btn-primary next-tab">Next <i class="bi bi-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    @* Tab 6: Referees *@
+                    <!--<div class="tab-pane fade" id="referees" role="tabpanel" aria-labelledby="referees-tab">
+                        <div class="card p-4 shadow-sm">
+                            <h5 class="card-title mb-4">Referees</h5>
+
+                            <div id="RefereesContainer">
+                                @if (Model.referees != null && Model.referees.Any())
+                                {
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered table-hover">
+                                            <thead class="table-dark">
+                                                <tr>
+                                                    <th scope="col">Name</th>
+                                                    <th scope="col">Company</th>
+                                                    <th scope="col">Designation</th>
+                                                    <th scope="col">Telephone</th>
+                                                    <th scope="col">Email</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @for (int i = 0; i < Model.referees.Count; i++)
+                                                {
+                                                    <tr>
+                                                        <td>@Model.referees[i].names</td>
+                                                        <td>@Model.referees[i].company</td>
+                                                        <td>@Model.referees[i].designation</td>
+                                                        <td>@Model.referees[i].telephone</td>
+                                                        <td>@Model.referees[i].email</td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <hr />
+                                }
+                                else
+                                {
+                                    <div class="alert alert-info" role="alert">
+                                        No Referees found.
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="d-flex justify-content-between mt-4">
+                                <button type="button" class="btn btn-secondary prev-tab"><i class="bi bi-arrow-left me-2"></i> Previous</button>
+                                <button type="button" class="btn btn-primary next-tab">Next <i class="bi bi-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </div>-->
+
+                    @* Tab 7: Attach Documents *@
+                    <div class="tab-pane fade" id="attachments" role="tabpanel" aria-labelledby="attachments-tab">
+                        <div class="card p-4 shadow-sm">
+                            <h5 class="card-title mb-4">Attachments</h5>
+
+                            <div id="AttachmentsContainer">
+                                @if (Model.attachments != null && Model.attachments.Any())
+                                {
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered table-hover">
+                                            <thead class="table-dark">
+                                                <tr>
+                                                    <th scope="col">File Type</th>
+                                                    <th scope="col">File Name</th>
+                                                    <th scope="col">Date Uploaded</th>
+                                                    <th scope="col">View File</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @for (int i = 0; i < Model.attachments.Count; i++)
+                                                {
+                                                    <tr>
+                                                        <td>@Model.attachments[i].type</td>
+                                                        <td>@Model.attachments[i].description</td>
+                                                        <td>@Model.attachments[i].amend_date.ToOrdinalDateString()</td>
+                                                        <td>
+                                                            <a href="@Url.Action("ViewDocument", "Job", new { filenumber = Model.attachments[i].attachmentid })"
+                                                               target="_blank" class="btn btn-info btn-sm">
+                                                                View File
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <hr />
+                                }
+                                else
+                                {
+                                    <div class="alert alert-info" role="alert">
+                                        No Attachments found.
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="d-flex justify-content-between mt-4">
+                                <button type="button" class="btn btn-secondary prev-tab"><i class="bi bi-arrow-left me-2"></i> Previous</button>
+                                <button type="button" class="btn btn-primary next-tab">Next <i class="bi bi-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    @* Tab 8: Profile Preview *@
+                    <div class="tab-pane fade" id="preview" role="tabpanel" aria-labelledby="preview-tab">
+                        <div class="card p-4 shadow-sm">
+                            <h5 class="card-title mb-4">Application Preview</h5>
+
+                            <div id="PreviewContainer" style="width: 100%; height: 500px; border: 1px solid #dee2e6; border-radius: .25rem;">
+                                <iframe id="pdfViewer" style="width: 100%; height: 100%; border: none; display: none;"></iframe>
+                                <div id="pdfPlaceholder" class="text-center" style="padding-top: 50px;">
+                                    <p class="text-muted">Loading Application Preview...</p>
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between mt-4">
+                                <button type="button" class="btn btn-secondary prev-tab"><i class="bi bi-arrow-left me-2"></i> Previous</button>
+                                @* No 'Next' button here as it's the last tab *@
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            }
+        </div>
+    </div>
+</main>
+
+<div class="modal fade" id="academicQualificationModal" tabindex="-1" aria-labelledby="academicModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="academicQualificationModalContent">
+            <div class="modal-body text-center py-5">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-2">Loading form...</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* --- End Bootstrap Modal --- *@
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <script>
+        $(document).ready(function () {
+
+            // ── Tab Navigation ──────────────────────────────────────────
+            $('.next-tab').on('click', function () {
+                var currentTabPane = $(this).closest('.tab-pane');
+                var currentTabId = '#' + currentTabPane.attr('id');
+                var currentTabIndex = $('#applicationTabs button')
+                    .index($('button[data-bs-target="' + currentTabId + '"]'));
+                var nextTabButton = $('#applicationTabs button').eq(currentTabIndex + 1);
+                if (nextTabButton.length) {
+                    new bootstrap.Tab(nextTabButton[0]).show();
+                }
+            });
+
+            $('.prev-tab').on('click', function () {
+                var currentTabPane = $(this).closest('.tab-pane');
+                var currentTabId = '#' + currentTabPane.attr('id');
+                var currentTabIndex = $('#applicationTabs button')
+                    .index($('button[data-bs-target="' + currentTabId + '"]'));
+                var prevTabButton = $('#applicationTabs button').eq(currentTabIndex - 1);
+                if (prevTabButton.length) {
+                    new bootstrap.Tab(prevTabButton[0]).show();
+                }
+            });
+
+            // ── PDF Preview (single handler, no conflicts) ───────────────
+            var pdfLoaded = false;
+            var applicationNumber = '@Model.applicationnumber';
+
+            $('#preview-tab').on('shown.bs.tab', function () {
+                if (pdfLoaded) return; // already loaded, don't reload
+
+                $('#pdfPlaceholder').show();
+                $('#pdfViewer').hide();
+
+                if (!applicationNumber) {
+                    $('#pdfPlaceholder').html(
+                        '<p class="text-warning">Application number not found.</p>'
+                    );
+                    return;
+                }
+
+                $.ajax({
+                    url: '@Url.Action("GetApplicationPdfBase64", "Job")',
+                    type: 'GET',
+                    data: { applicationNumber: applicationNumber },
+                    success: function (base64String) {
+                        if (base64String && base64String.length > 0) {
+
+                            // ✅ Use a blob URL instead of data: URI — works in all browsers
+                            var byteChars = atob(base64String);
+                            var byteNumbers = new Array(byteChars.length);
+                            for (var i = 0; i < byteChars.length; i++) {
+                                byteNumbers[i] = byteChars.charCodeAt(i);
+                            }
+                            var byteArray = new Uint8Array(byteNumbers);
+                            var blob = new Blob([byteArray], { type: 'application/pdf' });
+                            var blobUrl = URL.createObjectURL(blob);
+
+                            $('#pdfViewer').attr('src', blobUrl);
+                            $('#pdfPlaceholder').hide();
+                            $('#pdfViewer').show();
+                            pdfLoaded = true;
+
+                        } else {
+                            $('#pdfPlaceholder').html(
+                                '<p class="text-info">No PDF preview available for this application yet.</p>'
+                            );
+                        }
+                    },
+                    error: function (xhr) {
+                        var msg = xhr.status === 204
+                            ? 'PDF not yet generated for this application.'
+                            : 'Error loading preview. Please try again later.';
+                        $('#pdfPlaceholder').html(
+                            '<p class="text-danger">' + msg + '</p>'
+                        );
+                        $('#pdfViewer').hide();
+                    }
+                });
+            });
+
+        });
+    </script>
+}
+
+

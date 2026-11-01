@@ -1,0 +1,77 @@
+﻿@model List<Afidep_E_Recruitment.Controllers.JobController.JobApplication>
+@using Afidep_E_Recruitment.Models;
+
+@{
+    ViewBag.Title = "My Applications";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<main class="container py-4">
+
+    <!-- Page Header -->
+    <section class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-primary">My Job Applications</h2>
+    </section>
+
+    <!-- ✅ SUCCESS MESSAGE GOES HERE -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success text-center shadow-sm">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-md-12">
+
+            @if (Model != null && Model.Any())
+            {
+                foreach (var job in Model)
+                {
+                    <div class="card shadow-sm mb-4 border-0">
+                        <div class="card-body p-4">
+
+                            <h4 class="card-title text-primary mb-3">
+                                @job.description
+                            </h4>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <p class="mb-1 text-muted">
+                                        <strong>Application Date:</strong>
+                                        @job.dateapplied.ToString("dd MMM yyyy")
+                                    </p>
+                                </div>
+
+                                <div class="col-md-6 text-md-end">
+                                    <span class="badge bg-success px-3 py-2">
+                                        @job.status
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="text-end">
+                                <a href="@Url.Action("ApplyJob", "Job",
+                                    new {
+                                        applicationnumber = job.applicationnumber,
+                                        firstland = "true"
+                                    })"
+                                   class="btn btn-outline-primary px-4">
+                                    View Application
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="alert alert-info shadow-sm text-center w-75 mx-auto mt-5">
+                    No job applications found.
+                </div>
+            }
+
+        </div>
+    </div>
+</main>

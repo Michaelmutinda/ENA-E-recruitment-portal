@@ -1,0 +1,105 @@
+﻿@{
+    ViewBag.Title = "Reset Password";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<style>
+    .auth-header h2 {
+        font-size: 1.3rem;
+        margin-bottom: 20px;
+        color: #6A1B9A; /* ENAF purple */
+        text-align: center;
+        font-weight: 600;
+    }
+
+    .form-group {
+        margin-bottom: 14px;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #6A1B9A;
+        border-radius: 6px;
+        font-size: 0.95rem;
+    }
+
+    .loginbutton {
+        background-color: #6A1B9A;
+        color: #fff;
+        border: none;
+        padding: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        border-radius: 6px;
+        width: 100%;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+        .loginbutton:hover {
+            background-color: #8E24AA;
+        }
+
+    .auth-links {
+        text-align: center;
+        margin-top: 15px;
+        font-size: 0.9rem;
+    }
+
+        .auth-links a {
+            color: #6A1B9A;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+            .auth-links a:hover {
+                text-decoration: underline;
+            }
+</style>
+
+<div class="auth-header">
+    <h2>Reset Your Password</h2>
+</div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+@using (Html.BeginForm("ResetPasswordForm", "ResetPassword", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <input type="email"
+               name="email"
+               class="form-input"
+               placeholder="Email Address"
+               required />
+    </div>
+
+    <button type="submit" class="loginbutton">
+        Send Reset Link
+    </button>
+
+    <div class="auth-links">
+        <p>
+            Remember your password?
+            <a href="@Url.Action("Index", "Login")">Login</a>
+        </p>
+        <p>
+            Don’t have an account?
+            <a href="@Url.Action("Index", "Register")">Create one</a>
+        </p>
+    </div>
+}

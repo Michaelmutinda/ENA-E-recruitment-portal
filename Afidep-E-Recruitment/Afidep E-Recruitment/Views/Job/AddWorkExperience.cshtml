@@ -1,0 +1,157 @@
+﻿@model Afidep_E_Recruitment.Controllers.JobController.WorkExperience
+
+
+<div class="modal-header">
+    <h5 class="modal-title" id="academicModalLabel">Add Work Experience</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+@using (Html.BeginForm("AddWorkExperience", "Job", FormMethod.Post, new { @id = "addAcademicQualForm", @class = "modal-body" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+
+<input type="hidden" id="applicationNumber" name="applicationNumber" value="@ViewBag.ApplicationNumber" />
+    <div class="row">
+        <div class="col-md-4 mb-1">
+            @Html.LabelFor(m => m.jobtitle, "Job Title", new { @class = "form-label" })
+            @Html.TextBoxFor(m => m.jobtitle, new { @class = "form-control", @placeholder = "e.g., Sales Person", @required = "required" })
+            @Html.ValidationMessageFor(m => m.jobtitle, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-4 mb-1">
+            @Html.LabelFor(m => m.employer, "Employer", new { @class = "form-label" })
+            @Html.TextBoxFor(m => m.employer, new { @class = "form-control", @placeholder = "e.g., AFIDEP", @required = "required" })
+            @Html.ValidationMessageFor(m => m.employer, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 mb-1">
+            @Html.LabelFor(m => m.industry, "Industry", new { @class = "form-label" })
+            @Html.TextBoxFor(m => m.industry, new { @class = "form-control", @placeholder = "e.g., Pharmaceuticals", @required = "required" })
+            @Html.ValidationMessageFor(m => m.industry, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-4 mb-1">
+            @Html.LabelFor(m => m.hierarchylevel, "Hierarchy Level", new { @class = "form-label" })
+            @Html.DropDownListFor(m => m.hierarchylevel, ViewBag.HierarchyLevels as SelectList, "Select Hierarchy Level", new { @class = "form-select", @required = "required" })
+            @Html.ValidationMessageFor(m => m.hierarchylevel, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-4 mb-1">
+            @Html.LabelFor(m => m.country, "Country", new { @class = "form-label" })
+            @Html.DropDownListFor(m => m.country, ViewBag.Countries as SelectList, "Select Country", new { @class = "form-select", @required = "required" })
+            @Html.ValidationMessageFor(m => m.country, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 mb-1">
+            @Html.LabelFor(m => m.startdate, "Start Date", new { @class = "form-label" })
+            @Html.TextBoxFor(m => m.startdate, new { @class = "form-control", @type = "date", @required = "required" })
+            @Html.ValidationMessageFor(m => m.startdate, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-4 mb-1">
+            @Html.LabelFor(m => m.enddate, "End Date", new { @class = "form-label" })
+            @Html.TextBoxFor(m => m.enddate, new { @class = "form-control", @type = "date", @required = "required", id = "enddate" })
+            @Html.ValidationMessageFor(m => m.enddate, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-4 mb-1">
+            @Html.LabelFor(m => m.presentemployer, "Present Employer", new { @class = "form-label" })
+            @Html.DropDownListFor(m => m.presentemployer, ViewBag.PresentEmployer as SelectList, "Select Choice", new { @class = "form-select", @required = "required" })
+            @Html.ValidationMessageFor(m => m.presentemployer, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 mb-1">
+            @Html.LabelFor(m => m.summaryresponsibilities, "Summary of Responsibilities", new { @class = "form-label" })
+            @Html.TextAreaFor(m => m.summaryresponsibilities, new
+            {
+                @class = "form-control",
+                rows = 5,
+                placeholder = "Tell us about the responsibilities of your role..."
+            })
+            @Html.ValidationMessageFor(m => m.summaryresponsibilities, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div id="academicLoadingSpinner" class="text-center my-3" style="display: none;">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Processing...</span>
+        </div>
+        <p class="mt-2">Saving Work Experience...</p>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="AddWorkExperienceButton">Save Work Experience</button>
+    </div>
+}
+
+<script>
+    // Re-parse unobtrusive validation for the dynamically loaded form
+    $.validator.unobtrusive.parse("#addAcademicQualForm");
+
+    function RelocatePage(applicationNumber) {
+        setTimeout(() => {
+            window.location.href = `/Job/ApplyJob?applicationnumber=${applicationNumber}`;
+        }, 1000);
+    }
+
+    function toggleEndDate() {
+        const value = $('#presentemployer').val();
+        if (value === "Yes") {
+            $('#enddate').prop('disabled', true).val('');
+        } else {
+            $('#enddate').prop('disabled', false);
+        }
+    }
+
+    // Run on load (in case of pre-selected value)
+    toggleEndDate();
+
+    // Run on change
+    $('#presentemployer').on('change', toggleEndDate);
+
+
+    // Handle the AJAX form submission for the modal form
+    $('#AddWorkExperienceButton').on('click', function () {
+        if (!$('#addAcademicQualForm').valid()) return;
+
+        $('#academicLoadingSpinner').show();
+        $('#AddWorkExperienceButton').prop('disabled', true).text('Saving...');
+
+        const updateinputjson = {
+            applicationnumber: $('#applicationNumber').val(),
+            modify_type: "experience_details",
+            application_details: {},
+        };
+
+        //var experiences = [];
+
+        const experiences = [{
+            jobtitle: $('#jobtitle').val(),
+            employer: $('#employer').val(),
+            industry: $('#industry').val(),
+            hierarchylevel: $('#hierarchylevel').val(),
+            country: $('#country').val(),
+            presentemployer: $('#presentemployer').val(),
+            startdate: $('#startdate').val(),
+            enddate: $('#enddate').val(),
+            summaryresponsibilities: $('#summaryresponsibilities').val()
+        }];
+
+        updateinputjson.application_details = {
+            experiences: experiences,
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/Job/EditJobApp",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(updateinputjson),
+            success: function (response) {
+                RelocatePage(updateinputjson.applicationnumber);
+            },
+            error: function () {
+                RelocatePage(updateinputjson.applicationnumber);
+            }
+        });
+    });
+</script>

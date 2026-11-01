@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:tns="http://afidep.org/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" targetNamespace="http://afidep.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://afidep.org/">
+      <s:element name="RetrieveJobApplications">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="arguments" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RetrieveJobApplicationsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RetrieveJobApplicationsResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCountries">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetCountriesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCountriesResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RetrieveJobApplication">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="arguments" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RetrieveJobApplicationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RetrieveJobApplicationResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RetrieveOpenJobs">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="arguments" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RetrieveOpenJobsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RetrieveOpenJobsResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAvailableJobDetails">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="arguments" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAvailableJobDetailsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAvailableJobDetailsResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddJobApplication">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="arguments" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddJobApplicationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AddJobApplicationResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ModifyJobApplication">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="arguments" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ModifyJobApplicationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ModifyJobApplicationResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddJobAttachment">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="applicationnumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="documentpath" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="documenttype" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddJobAttachmentResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AddJobAttachmentResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RetrieveJobSummary">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="arguments" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RetrieveJobSummaryResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RetrieveJobSummaryResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRequisitionJDAttachmentPath">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="requisitionNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRequisitionJDAttachmentPathResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetRequisitionJDAttachmentPathResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertSharePointAttachment">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="applicationNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="fileName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="fileUrl" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertSharePointAttachmentResponse">
+        <s:complexType />
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="RetrieveJobApplicationsSoapIn">
+    <wsdl:part name="parameters" element="tns:RetrieveJobApplications" />
+  </wsdl:message>
+  <wsdl:message name="RetrieveJobApplicationsSoapOut">
+    <wsdl:part name="parameters" element="tns:RetrieveJobApplicationsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCountriesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCountries" />
+  </wsdl:message>
+  <wsdl:message name="GetCountriesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCountriesResponse" />
+  </wsdl:message>
+  <wsdl:message name="RetrieveJobApplicationSoapIn">
+    <wsdl:part name="parameters" element="tns:RetrieveJobApplication" />
+  </wsdl:message>
+  <wsdl:message name="RetrieveJobApplicationSoapOut">
+    <wsdl:part name="parameters" element="tns:RetrieveJobApplicationResponse" />
+  </wsdl:message>
+  <wsdl:message name="RetrieveOpenJobsSoapIn">
+    <wsdl:part name="parameters" element="tns:RetrieveOpenJobs" />
+  </wsdl:message>
+  <wsdl:message name="RetrieveOpenJobsSoapOut">
+    <wsdl:part name="parameters" element="tns:RetrieveOpenJobsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAvailableJobDetailsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAvailableJobDetails" />
+  </wsdl:message>
+  <wsdl:message name="GetAvailableJobDetailsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAvailableJobDetailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddJobApplicationSoapIn">
+    <wsdl:part name="parameters" element="tns:AddJobApplication" />
+  </wsdl:message>
+  <wsdl:message name="AddJobApplicationSoapOut">
+    <wsdl:part name="parameters" element="tns:AddJobApplicationResponse" />
+  </wsdl:message>
+  <wsdl:message name="ModifyJobApplicationSoapIn">
+    <wsdl:part name="parameters" element="tns:ModifyJobApplication" />
+  </wsdl:message>
+  <wsdl:message name="ModifyJobApplicationSoapOut">
+    <wsdl:part name="parameters" element="tns:ModifyJobApplicationResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddJobAttachmentSoapIn">
+    <wsdl:part name="parameters" element="tns:AddJobAttachment" />
+  </wsdl:message>
+  <wsdl:message name="AddJobAttachmentSoapOut">
+    <wsdl:part name="parameters" element="tns:AddJobAttachmentResponse" />
+  </wsdl:message>
+  <wsdl:message name="RetrieveJobSummarySoapIn">
+    <wsdl:part name="parameters" element="tns:RetrieveJobSummary" />
+  </wsdl:message>
+  <wsdl:message name="RetrieveJobSummarySoapOut">
+    <wsdl:part name="parameters" element="tns:RetrieveJobSummaryResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetRequisitionJDAttachmentPathSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRequisitionJDAttachmentPath" />
+  </wsdl:message>
+  <wsdl:message name="GetRequisitionJDAttachmentPathSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRequisitionJDAttachmentPathResponse" />
+  </wsdl:message>
+  <wsdl:message name="InsertSharePointAttachmentSoapIn">
+    <wsdl:part name="parameters" element="tns:InsertSharePointAttachment" />
+  </wsdl:message>
+  <wsdl:message name="InsertSharePointAttachmentSoapOut">
+    <wsdl:part name="parameters" element="tns:InsertSharePointAttachmentResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ServiceProxySoap">
+    <wsdl:operation name="RetrieveJobApplications">
+      <wsdl:input message="tns:RetrieveJobApplicationsSoapIn" />
+      <wsdl:output message="tns:RetrieveJobApplicationsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCountries">
+      <wsdl:input message="tns:GetCountriesSoapIn" />
+      <wsdl:output message="tns:GetCountriesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RetrieveJobApplication">
+      <wsdl:input message="tns:RetrieveJobApplicationSoapIn" />
+      <wsdl:output message="tns:RetrieveJobApplicationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RetrieveOpenJobs">
+      <wsdl:input message="tns:RetrieveOpenJobsSoapIn" />
+      <wsdl:output message="tns:RetrieveOpenJobsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAvailableJobDetails">
+      <wsdl:input message="tns:GetAvailableJobDetailsSoapIn" />
+      <wsdl:output message="tns:GetAvailableJobDetailsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddJobApplication">
+      <wsdl:input message="tns:AddJobApplicationSoapIn" />
+      <wsdl:output message="tns:AddJobApplicationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ModifyJobApplication">
+      <wsdl:input message="tns:ModifyJobApplicationSoapIn" />
+      <wsdl:output message="tns:ModifyJobApplicationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddJobAttachment">
+      <wsdl:input message="tns:AddJobAttachmentSoapIn" />
+      <wsdl:output message="tns:AddJobAttachmentSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RetrieveJobSummary">
+      <wsdl:input message="tns:RetrieveJobSummarySoapIn" />
+      <wsdl:output message="tns:RetrieveJobSummarySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRequisitionJDAttachmentPath">
+      <wsdl:input message="tns:GetRequisitionJDAttachmentPathSoapIn" />
+      <wsdl:output message="tns:GetRequisitionJDAttachmentPathSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertSharePointAttachment">
+      <wsdl:input message="tns:InsertSharePointAttachmentSoapIn" />
+      <wsdl:output message="tns:InsertSharePointAttachmentSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ServiceProxySoap" type="tns:ServiceProxySoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="RetrieveJobApplications">
+      <soap:operation soapAction="http://afidep.org/RetrieveJobApplications" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCountries">
+      <soap:operation soapAction="http://afidep.org/GetCountries" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RetrieveJobApplication">
+      <soap:operation soapAction="http://afidep.org/RetrieveJobApplication" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RetrieveOpenJobs">
+      <soap:operation soapAction="http://afidep.org/RetrieveOpenJobs" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAvailableJobDetails">
+      <soap:operation soapAction="http://afidep.org/GetAvailableJobDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddJobApplication">
+      <soap:operation soapAction="http://afidep.org/AddJobApplication" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ModifyJobApplication">
+      <soap:operation soapAction="http://afidep.org/ModifyJobApplication" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddJobAttachment">
+      <soap:operation soapAction="http://afidep.org/AddJobAttachment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RetrieveJobSummary">
+      <soap:operation soapAction="http://afidep.org/RetrieveJobSummary" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRequisitionJDAttachmentPath">
+      <soap:operation soapAction="http://afidep.org/GetRequisitionJDAttachmentPath" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertSharePointAttachment">
+      <soap:operation soapAction="http://afidep.org/InsertSharePointAttachment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ServiceProxySoap12" type="tns:ServiceProxySoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="RetrieveJobApplications">
+      <soap12:operation soapAction="http://afidep.org/RetrieveJobApplications" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCountries">
+      <soap12:operation soapAction="http://afidep.org/GetCountries" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RetrieveJobApplication">
+      <soap12:operation soapAction="http://afidep.org/RetrieveJobApplication" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RetrieveOpenJobs">
+      <soap12:operation soapAction="http://afidep.org/RetrieveOpenJobs" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAvailableJobDetails">
+      <soap12:operation soapAction="http://afidep.org/GetAvailableJobDetails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddJobApplication">
+      <soap12:operation soapAction="http://afidep.org/AddJobApplication" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ModifyJobApplication">
+      <soap12:operation soapAction="http://afidep.org/ModifyJobApplication" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddJobAttachment">
+      <soap12:operation soapAction="http://afidep.org/AddJobAttachment" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RetrieveJobSummary">
+      <soap12:operation soapAction="http://afidep.org/RetrieveJobSummary" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRequisitionJDAttachmentPath">
+      <soap12:operation soapAction="http://afidep.org/GetRequisitionJDAttachmentPath" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertSharePointAttachment">
+      <soap12:operation soapAction="http://afidep.org/InsertSharePointAttachment" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ServiceProxy">
+    <wsdl:port name="ServiceProxySoap" binding="tns:ServiceProxySoap">
+      <soap:address location="http://localhost:51393/ProxyService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ServiceProxySoap12" binding="tns:ServiceProxySoap12">
+      <soap12:address location="http://localhost:51393/ProxyService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

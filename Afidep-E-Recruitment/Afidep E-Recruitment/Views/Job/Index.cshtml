@@ -1,0 +1,118 @@
+﻿@model Afidep_E_Recruitment.Controllers.HomeController.AvailableJobs
+@using Afidep_E_Recruitment.Models;
+
+@{
+    ViewBag.Title = $"Job - {Model.requestid}";
+}
+
+<main class="container my-4">
+    <section class="mb-4 text-center">
+        <h2 class="text-primary">Job Details - @Model.requestid</h2>
+    </section>
+
+    <div class="card shadow-sm p-4 mb-4">
+        <h3 class="mb-3">@Model.jobdescription</h3>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <p><strong>Employment Type:</strong> @Model.contracttype</p>
+                <p><strong>Posting Date:</strong> @Model.postingdate.ToOrdinalDateString()</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Closing Date:</strong> @Model.closingdate.ToOrdinalDateString()</p>
+            </div>
+        </div>
+
+        <p class="mb-3"><strong>Description:</strong> @Model.mainobjective</p>
+        <!-- ✅ Download Job Description -->
+        <div class="mb-3">
+            <a href="@Url.Action("DownloadJD","Job",
+            new { requestid = Model.requestid })"
+               class="btn btn-outline-primary">
+
+                📄 Download Job Description
+
+            </a>
+        </div>
+
+        @if (Model.jobresponsibilities?.Any() == true)
+        {
+            <hr />
+            <h4>Job Responsibilities</h4>
+            <ul class="list-group mb-3">
+                @foreach (var responsibility in Model.jobresponsibilities)
+                {
+                    <li class="list-group-item">@responsibility.responsibility</li>
+                }
+            </ul>
+        }
+
+        @if (Model.acadquals?.Any() == true)
+        {
+            <hr />
+            <h4>Academic Qualifications</h4>
+            <ul class="list-group mb-3">
+                @foreach (var acadqual in Model.acadquals)
+                {
+                    <li class="list-group-item">@acadqual.type : @acadqual.description</li>
+                }
+            </ul>
+        }
+
+        @if (Model.experience?.Any() == true)
+        {
+            <hr />
+            <h4>Experience</h4>
+            <div class="table-responsive mb-3">
+                <table class="table table-bordered table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Industry Name</th>
+                            <th>Hierarchy Level</th>
+                            <th>Years of Experience</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var exp in Model.experience)
+                        {
+                            <tr>
+                                <td>@exp.iname</td>
+                                <td>@exp.hlevel</td>
+                                <td>@exp.minyears</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+
+        @if (Model.profquals?.Any() == true)
+        {
+            <hr />
+            <h4>Professional Courses <small class="text-muted">(Optional)</small></h4>
+            <ul class="list-group mb-3">
+                @foreach (var profq in Model.profquals)
+                {
+                    <li class="list-group-item">@profq.description - Section/Level: @profq.level</li>
+                }
+            </ul>
+        }
+
+        @if (Model.profmembs?.Any() == true)
+        {
+            <hr />
+            <h4>Professional Memberships <small class="text-muted">(Optional)</small></h4>
+            <ul class="list-group mb-3">
+                @foreach (var profm in Model.profmembs)
+                {
+                    <li class="list-group-item">@profm.description</li>
+                }
+            </ul>
+        }
+
+        <div class="d-flex justify-content-between mt-4">
+            <a class="btn btn-primary px-4" href="@Url.Action("ApplyJob", "Job", new { jobrequestid = Model.requestid, firstland = "true" })">Apply Now</a>
+            <a class="btn btn-outline-secondary px-4" href="@Url.Action("Index", "Home")">Back to Vacancies</a>
+        </div>
+    </div>
+</main>

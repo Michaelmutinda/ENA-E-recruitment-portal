@@ -1,0 +1,99 @@
+﻿/* ===== ENAF AUTH THEME ===== */
+:root {
+    --enaf-primary: #6A1B9A;
+    --enaf-accent: #E53935;
+    --enaf-text: #2c2c2c;
+}
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* Background handled by layout */
+.auth-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.loginbox {
+    width: 100%;
+    max-width: 420px;
+    background: #ffffff;
+    padding: 35px 30px;
+    border-radius: 14px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+}
+
+.loginbox-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+    .loginbox-header h1 {
+        font-size: 1.4rem;
+        color: var(--enaf-primary);
+        margin: 0;
+    }
+
+.form-group {
+    margin-bottom: 14px;
+}
+
+.form-input,
+.phone-input,
+.country-code-select {
+    width: 100%;
+    padding: 11px 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 0.95rem;
+}
+
+.loginbutton {
+    width: 100%;
+    padding: 12px;
+    border-radius: 6px;
+    background: var(--enaf-primary);
+    color: #fff;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+    .loginbutton:hover {
+        background: #8E24AA;
+    }
+
+.alert {
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+}
+
+.alert-success {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.alert-danger,
+.alert-error {
+    background: #fdecea;
+    color: #c62828;
+}
+
+.auth-links {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.9rem;
+}
+
+    .auth-links a {
+        color: var(--enaf-primary);
+        font-weight: 500;
+        text-decoration: none;
+    }

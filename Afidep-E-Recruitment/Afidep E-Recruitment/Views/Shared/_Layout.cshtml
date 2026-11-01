@@ -1,0 +1,206 @@
+﻿@*
+    _Layout.cshtml – ENAF Recruitment Portal (Main Dashboard)
+*@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - ENAF Recruitment Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="icon" type="image/png"
+          href="@Url.Content("~/Content/images/enaf-logo.png")" />
+
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+    <style>
+        :root {
+            --enaf-primary: #6A1B9A;
+            --enaf-accent: #E53935;
+            --enaf-light: #f6f6f8;
+            --enaf-dark: #2c2c2c;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: var(--enaf-light);
+        }
+
+        /* =======================
+           TOP NAVIGATION BAR
+        ======================== */
+        .navbar {
+            background: #fff;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 0 20px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+            .nav-logo img {
+                height: 42px;
+            }
+
+            .nav-logo span {
+                font-weight: 600;
+                color: var(--enaf-primary);
+                font-size: 1rem;
+            }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #444;
+            font-weight: 500;
+            padding: 8px 10px;
+            border-radius: 6px;
+            transition: 0.2s;
+        }
+
+            .nav-links a:hover,
+            .nav-links a.active {
+                background: rgba(106,27,154,0.1);
+                color: var(--enaf-primary);
+            }
+
+        /* =======================
+           PROFILE MENU
+        ======================== */
+        .profile-menu {
+            position: relative;
+        }
+
+        .profile-btn {
+            background: none;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            color: #333;
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            right: 0;
+            top: 45px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            width: 180px;
+            display: none;
+            z-index: 100;
+        }
+
+            .profile-dropdown a {
+                display: block;
+                padding: 12px 15px;
+                text-decoration: none;
+                color: #333;
+                font-size: 0.9rem;
+            }
+
+                .profile-dropdown a:hover {
+                    background: #f4f4f4;
+                }
+
+        .profile-menu.open .profile-dropdown {
+            display: block;
+        }
+
+        /* =======================
+           PAGE CONTENT
+        ======================== */
+        .page-container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 15px;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #777;
+            margin: 40px 0 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOP NAV BAR -->
+    <header class="navbar">
+        <div class="nav-left">
+            <div class="nav-logo">
+                <img src="@Url.Content("~/Content/images/enaf-logo.png")" alt="ENAF Logo" />
+                <span>ENAF Recruitment</span>
+            </div>
+
+            <nav class="nav-links">
+                <a href="@Url.Action("Index","Home")">Available Jobs</a>
+                <a href="@Url.Action("MyApplications","Job")">My Applications</a>
+            </nav>
+        </div>
+
+        <div class="profile-menu" id="profileMenu">
+            <button class="profile-btn" onclick="toggleProfileMenu()">
+                <i class="fa fa-user-circle"></i> Profile <i class="fa fa-caret-down"></i>
+            </button>
+
+            <div class="profile-dropdown">
+                <a href="@Url.Action("EditProfile","Account")">
+                    <i class="fa fa-id-card"></i> My Profile
+                </a>
+                <a href="@Url.Action("Logout","Login")">
+                    <i class="fa fa-sign-out"></i> Logout
+                </a>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="page-container">
+        @RenderBody()
+    </main>
+
+    <footer>
+        &copy; @DateTime.Now.Year – Echo Network Africa Foundation
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    <script>
+        function toggleProfileMenu() {
+            document.getElementById("profileMenu").classList.toggle("open");
+        }
+
+        document.addEventListener("click", function (e) {
+            const menu = document.getElementById("profileMenu");
+            if (!menu.contains(e.target)) {
+                menu.classList.remove("open");
+            }
+        });
+    </script>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

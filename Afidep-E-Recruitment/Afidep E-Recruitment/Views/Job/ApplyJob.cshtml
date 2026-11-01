@@ -1,0 +1,597 @@
+﻿@model Afidep_E_Recruitment.Controllers.JobController.JobApplication
+
+@using Afidep_E_Recruitment.Models;
+
+@{
+    bool isApplied = !string.IsNullOrEmpty(Model.stage) &&
+                 Model.stage.Trim().ToLower() == "submitted";
+}
+<style>
+    input[readonly],
+    textarea[readonly],
+    select[readonly] {
+        background-color: #e9ecef;
+        cursor: default;
+    }
+
+    input[disabled],
+    textarea[disabled],
+    select[disabled] {
+        background-color: #e9ecef;
+        cursor: not-allowed;
+    }
+</style>
+
+@* Hidden field to pass TempData["FirstLand"] to JavaScript without Razor/JS brace conflict *@
+@if (TempData["FirstLand"] != null)
+{
+    <input type="hidden" id="isFirstLand" value="true" />
+}
+
+@* DEBUG: remove after confirming — status: '@Model.status' | isApplied: @isApplied *@
+
+<main>
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="mb-4 text-primary">Job Application: @Model.applicationnumber</h2>
+            <p class="text-info-emphasis">Application Date: @Model.applicationdate.ToOrdinalDateString()</p>
+
+            @* Bootstrap Tabs Navigation *@
+            <ul class="nav nav-tabs mb-3" id="applicationTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="basic-info-tab" data-bs-toggle="tab" data-bs-target="#basic-info" type="button" role="tab" aria-controls="basic-info" aria-selected="true">1. Basic Information</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="academic-tab" data-bs-toggle="tab" data-bs-target="#academic" type="button" role="tab" aria-controls="academic" aria-selected="false" tabindex="-1">2. Academic Qualifications</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="experience-tab" data-bs-toggle="tab" data-bs-target="#experience" type="button" role="tab" aria-controls="experience" aria-selected="false" tabindex="-1">3. Experience</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="prof-course-tab" data-bs-toggle="tab" data-bs-target="#prof-course" type="button" role="tab" aria-controls="prof-course" aria-selected="false" tabindex="-1">4. Professional Courses</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="prof-membership-tab" data-bs-toggle="tab" data-bs-target="#prof-membership" type="button" role="tab" aria-controls="prof-membership" aria-selected="false" tabindex="-1">5. Professional Memberships</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="attachments-tab" data-bs-toggle="tab" data-bs-target="#attachments" type="button" role="tab" aria-controls="attachments" aria-selected="false" tabindex="-1">6. Attachments</button>
+                </li>
+                @if (!isApplied)
+                {
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="declaration-tab" data-bs-toggle="tab" data-bs-target="#declaration" type="button" role="tab" aria-controls="declaration" aria-selected="false" tabindex="-1">7. Declaration</button>
+                    </li>
+                }
+            </ul>
+
+            @using (Html.BeginForm("SubmitJobApplication", "Job", FormMethod.Post, new { @id = "jobApplicationForm" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+                @Html.HiddenFor(m => m.applicationnumber)
+
+                @* Bootstrap Tab Content *@
+                <div class="tab-content" id="applicationTabsContent">
+
+                    <div class="col-md-4 mb-1" style="display:none">
+                        @Html.TextBoxFor(m => m.applicationnumber)
+                    </div>
+
+                    @* Tab 1: Basic Information *@
+                    <div class="tab-pane fade show active" id="basic-info" role="tabpanel" aria-labelledby="basic-info-tab">
+                        <div class="card p-4 shadow-sm">
+                            <h5 class="card-title m-2">Basic Information</h5>
+                            <div class="row">
+                                <div class="col-md-4 mb-1">
+                                    <label for="personalinfo_firstname">First Name</label>
+                                    @Html.TextBoxFor(m => m.personalinfo.firstname, new { @class = "form-control", @placeholder = "Enter your first name", @required = "required", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(m => m.personalinfo.firstname, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-4 mb-1">
+                                    <label for="personalinfo_middlename">Middle Name</label>
+                                    @Html.TextBoxFor(m => m.personalinfo.middlename, new { @class = "form-control", @placeholder = "Enter your middle name" })
+                                    @Html.ValidationMessageFor(m => m.personalinfo.middlename, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-4 mb-1">
+                                    <label for="personalinfo_lastname">Last Name</label>
+                                    @Html.TextBoxFor(m => m.personalinfo.lastname, new { @class = "form-control", @placeholder = "Enter your last name", @required = "required", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(m => m.personalinfo.lastname, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 mb-1">
+                                    <label for="personalinfo_gender">Gender</label>
+                                    @Html.DropDownListFor(m => m.personalinfo.gender, (SelectList)ViewBag.GenderList, "Select Gender", new { @class = "form-select", @required = "required" })
+                                    @Html.ValidationMessageFor(m => m.personalinfo.gender, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-4 mb-1">
+                                    <label for="personalinfo_citizenship">Citizenship</label>
+                                    @Html.DropDownListFor(m => m.personalinfo.citizenship, ViewBag.CitizenshipOptions as SelectList, "Select Citizenship", new { @class = "form-select", @required = "required" })
+                                    @Html.ValidationMessageFor(m => m.personalinfo.citizenship, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 mb-1">
+                                    <label for="personalinfo_specialneeds">Do you have any Special Needs?</label>
+                                    @Html.DropDownListFor(m => m.personalinfo.specialneeds, ViewBag.DisbalingOptions as SelectList, "Select Option", new { @class = "form-select", @required = "required" })
+                                    @Html.ValidationMessageFor(m => m.personalinfo.specialneeds, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-4 mb-1">
+                                    <label for="personalinfo_disabilitydetails">Disability Details (if any)</label>
+                                    @Html.TextBoxFor(m => m.personalinfo.disabilitydetails, new { @class = "form-control", @placeholder = "Details of disability (if any)" })
+                                    @Html.ValidationMessageFor(m => m.personalinfo.disabilitydetails, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <h5 class="card-title m-2">Contact Information</h5>
+                            <div class="row">
+                                <div class="col-md-4 mb-1">
+                                    <label for="personalinfo_email">E-Mail</label>
+                                    @Html.TextBoxFor(m => m.personalinfo.email, new { @class = "form-control", @placeholder = "Enter your email", @type = "email", @required = "required", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(m => m.personalinfo.email, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-4 mb-1">
+                                    <label for="personalinfo_telephone">Phone Number</label>
+                                    @Html.TextBoxFor(m => m.personalinfo.telephone, new { @class = "form-control", @placeholder = "Enter your phone number", @type = "tel", @required = "required" })
+                                    @Html.ValidationMessageFor(m => m.personalinfo.telephone, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between mt-4">
+                                <button type="button" class="btn btn-success me-5" id="SaveProfileInfo">Save Profile Info</button>
+                                <button type="button" class="btn btn-primary next-tab">Next <i class="bi bi-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    @* Tab 2: Academic Qualifications *@
+                    <div class="tab-pane fade" id="academic" role="tabpanel" aria-labelledby="academic-tab">
+                        <div class="card p-4 shadow-sm">
+                            <h5 class="card-title mb-4">Academic Qualifications</h5>
+                            <div id="academicQualificationsContainer">
+                                @if (Model.academicqualifications != null && Model.academicqualifications.Any())
+                                {
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered table-hover">
+                                            <thead class="table-dark">
+                                                <tr>
+                                                    <th scope="col">Level of Study</th>
+                                                    <th scope="col">Course Name</th>
+                                                    <th scope="col">Institution</th>
+                                                    <th scope="col">Country</th>
+                                                    <th scope="col">Start Date</th>
+                                                    <th scope="col">End Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @for (int i = 0; i < Model.academicqualifications.Count; i++)
+                                                {
+                                                    <tr>
+                                                        <td>@Model.academicqualifications[i].educationlevel</td>
+                                                        <td>@Model.academicqualifications[i].coursename</td>
+                                                        <td>@Model.academicqualifications[i].institutionname</td>
+                                                        <td>@Model.academicqualifications[i].country</td>
+                                                        <td>@Model.academicqualifications[i].startdate.ToOrdinalDateString()</td>
+                                                        <td>@Model.academicqualifications[i].enddate.ToOrdinalDateString()</td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <hr />
+                                }
+                            </div>
+
+                            <button type="button" class="btn btn-outline-primary btn-sm my-3" id="addAcademicQualButton"
+                                    data-application-number="@Model.applicationnumber">
+                                <i class="bi bi-plus-circle me-2"></i>Add Qualification
+                            </button>
+                            <div class="d-flex justify-content-between mt-4">
+                                <button type="button" class="btn btn-secondary prev-tab"><i class="bi bi-arrow-left me-2"></i> Previous</button>
+                                <button type="button" class="btn btn-primary next-tab">Next <i class="bi bi-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    @* Tab 3: Work Experience *@
+                    <div class="tab-pane fade" id="experience" role="tabpanel" aria-labelledby="experience-tab">
+                        <div class="card p-4 shadow-sm">
+                            <h5 class="card-title mb-4">Work Experience</h5>
+
+                            <div id="experiencesContainer">
+                                @if (Model.experiences != null && Model.experiences.Any())
+                                {
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered table-hover">
+                                            <thead class="table-dark">
+                                                <tr>
+                                                    <th scope="col">Job Title</th>
+                                                    <th scope="col">Employer</th>
+                                                    <th scope="col">Start Date</th>
+                                                    <th scope="col">End Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @for (int i = 0; i < Model.experiences.Count; i++)
+                                                {
+                                                    <tr>
+                                                        <td>@Model.experiences[i].jobtitle</td>
+                                                        <td>@Model.experiences[i].employer</td>
+                                                        <td>@Model.experiences[i].startdate.ToOrdinalDateString()</td>
+                                                        @if (Model.experiences[i].presentemployer == "Yes")
+                                                        {
+                                                            <td>Present Employer</td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td>@Model.experiences[i].enddate.ToOrdinalDateString()</td>
+                                                        }
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <hr />
+                                }
+                            </div>
+
+                            <button type="button" class="btn btn-outline-primary btn-sm my-3" id="addWorkExpButton"
+                                    data-application-number="@Model.applicationnumber">
+                                <i class="bi bi-plus-circle me-2"></i>Add Work Experience
+                            </button>
+
+                            <div class="d-flex justify-content-between mt-4">
+                                <button type="button" class="btn btn-secondary prev-tab"><i class="bi bi-arrow-left me-2"></i> Previous</button>
+                                <button type="button" class="btn btn-primary next-tab">Next <i class="bi bi-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    @* Tab 4: Professional Courses *@
+                    <div class="tab-pane fade" id="prof-course" role="tabpanel" aria-labelledby="prof-course-tab">
+                        <div class="card p-4 shadow-sm">
+                            <h5 class="card-title mb-4">Professional Courses</h5>
+
+                            <div id="professionalCoursesContainer">
+                                @if (Model.profqualifications != null && Model.profqualifications.Any())
+                                {
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered table-hover">
+                                            <thead class="table-dark">
+                                                <tr>
+                                                    <th scope="col">Qualification</th>
+                                                    <th scope="col">Section/Level</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @for (int i = 0; i < Model.profqualifications.Count; i++)
+                                                {
+                                                    <tr>
+                                                        <td>@Model.profqualifications[i].description</td>
+                                                        <td>@Model.profqualifications[i].level</td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <hr />
+                                }
+                            </div>
+
+                            <button type="button" class="btn btn-outline-primary btn-sm my-3" id="addProfCourse"
+                                    data-application-number="@Model.applicationnumber">
+                                <i class="bi bi-plus-circle me-2"></i>Add Professional Course
+                            </button>
+
+                            <div class="d-flex justify-content-between mt-4">
+                                <button type="button" class="btn btn-secondary prev-tab"><i class="bi bi-arrow-left me-2"></i> Previous</button>
+                                <button type="button" class="btn btn-primary next-tab">Next <i class="bi bi-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    @* Tab 5: Professional Memberships *@
+                    <div class="tab-pane fade" id="prof-membership" role="tabpanel" aria-labelledby="prof-membership-tab">
+                        <div class="card p-4 shadow-sm">
+                            <h5 class="card-title mb-4">Professional Memberships</h5>
+
+                            <div id="professionalMembershipsContainer">
+                                @if (Model.profmembership != null && Model.profmembership.Any())
+                                {
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered table-hover">
+                                            <thead class="table-dark">
+                                                <tr>
+                                                    <th scope="col">Professional Body</th>
+                                                    <th scope="col">Membership Number</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @for (int i = 0; i < Model.profmembership.Count; i++)
+                                                {
+                                                    <tr>
+                                                        <td>@Model.profmembership[i].profbody</td>
+                                                        <td>@Model.profmembership[i].memberno</td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <hr />
+                                }
+                            </div>
+
+                            <button type="button" class="btn btn-outline-primary btn-sm my-3" id="addProfMemb"
+                                    data-application-number="@Model.applicationnumber">
+                                <i class="bi bi-plus-circle me-2"></i>Add Professional Membership
+                            </button>
+                            <div class="d-flex justify-content-between mt-4">
+                                <button type="button" class="btn btn-secondary prev-tab"><i class="bi bi-arrow-left me-2"></i> Previous</button>
+                                <button type="button" class="btn btn-primary next-tab">Next <i class="bi bi-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    @* Tab 6: Attachments *@
+                    <div class="tab-pane fade" id="attachments" role="tabpanel" aria-labelledby="attachments-tab">
+                        <div class="card p-4 shadow-sm">
+                            <h5 class="card-title mb-4">Attachments</h5>
+
+                            <div id="AttachmentsContainer">
+                                @if (Model.attachments != null && Model.attachments.Any())
+                                {
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered table-hover">
+                                            <thead class="table-dark">
+                                                <tr>
+                                                    <th scope="col">File Type</th>
+                                                    <th scope="col">File Name</th>
+                                                    <th scope="col">Date Uploaded</th>
+                                                    <th scope="col">View File</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @for (int i = 0; i < Model.attachments.Count; i++)
+                                                {
+                                                    <tr>
+                                                        <td>@Model.attachments[i].type</td>
+                                                        <td>@Model.attachments[i].description</td>
+                                                        <td>@Model.attachments[i].amend_date.ToOrdinalDateString()</td>
+                                                        <td>
+                                                            <a href="@Url.Action("ViewDocument", "Job", new { filenumber = Model.attachments[i].attachmentid })"
+                                                               target="_blank" class="btn btn-info btn-sm">
+                                                                View File
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <hr />
+                                }
+                            </div>
+
+                            <button type="button" class="btn btn-outline-primary btn-sm my-3" id="addAttachments"
+                                    data-application-number="@Model.applicationnumber">
+                                <i class="bi bi-plus-circle me-2"></i>Add Attachments
+                            </button>
+
+                            <div class="d-flex justify-content-between mt-4">
+                                <button type="button" class="btn btn-secondary prev-tab"><i class="bi bi-arrow-left me-2"></i> Previous</button>
+                                @* FIX: use next-tab class so the generic JS handler navigates to declaration tab correctly *@
+                                @if (!isApplied)
+                                {
+                                    <button type="button" class="btn btn-primary next-tab">
+                                        Next <i class="bi bi-arrow-right"></i>
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    @* Tab 7: Declaration — only shown when status is NOT applied *@
+                    @if (!isApplied)
+                    {
+                        <div class="tab-pane fade" id="declaration" role="tabpanel" aria-labelledby="declaration-tab">
+                            <div class="card p-4 shadow-sm">
+                                <h5 class="card-title mb-4">Declaration</h5>
+
+                                <div id="Declaration" class="mb-4">
+                                    <p>
+                                        Please read the following declaration carefully. By proceeding, you confirm your understanding and agreement.
+                                    </p>
+
+                                    <h6>Terms and Conditions / Declaration:</h6>
+                                    <div class="declaration-content border p-3 rounded bg-light mb-3" style="max-height: 250px; overflow-y: auto;">
+                                        <p><strong>1. Accuracy of Information:</strong></p>
+                                        <p>By submitting this application, you declare that all information provided is true, accurate, and complete to the best of your knowledge and belief. Any false or misleading information may lead to the disqualification of your application or termination of employment if already engaged.</p>
+
+                                        <p><strong>2. Data Privacy:</strong></p>
+                                        <p>Your personal data submitted will be processed in accordance with our Privacy Policy. By proceeding, you consent to the collection, processing, and storage of your personal information for recruitment purposes.</p>
+
+                                        <p><strong>3. Application Review:</strong></p>
+                                        <p>The organization reserves the right to review and verify all information provided. This may include background checks, reference checks, and verification of academic and professional qualifications.</p>
+
+                                        <p><strong>4. Equal Opportunity:</strong></p>
+                                        <p>We are an equal opportunity employer and value diversity. All qualified applicants will receive consideration for employment without regard to race, color, religion, gender, sexual orientation, national origin, disability, or age.</p>
+
+                                        <p><strong>5. No Guarantee of Employment:</strong></p>
+                                        <p>Submission of this application does not guarantee an interview or offer of employment.</p>
+
+                                        <p><strong>6. Changes to Application:</strong></p>
+                                        <p>Once submitted, changes to the application may not be possible. Please ensure all details are correct before submission.</p>
+
+                                        <p><strong>7. Communication:</strong></p>
+                                        <p>By submitting this application, you agree to receive communications from us regarding your application status.</p>
+
+                                        <p><strong>8. Data Protection:</strong></p>
+                                        <p>
+                                            The parties agree to comply with the Data Protection Act, No. 24 of
+                                            2019 and all other applicable data protection laws and regulations
+                                            concerning any personal data exchanged or handled in connection with
+                                            this application. ENAF shall only process such data as necessary for
+                                            fulfilling their obligations under this recruitment process and shall
+                                            implement appropriate measures to protect against unauthorized access,
+                                            loss, or destruction of such data.
+                                        </p>
+
+                                        <p><strong>9. Safeguarding Standards:</strong></p>
+                                        <p>
+                                            Safeguarding standards are meant to protect vulnerable individuals from
+                                            harm and abuse. If successful in the application process, the applicant
+                                            agrees to comply at all times with ENAF's safeguarding policies and
+                                            procedures, relevant statutory guidance, and all applicable legal and
+                                            regulatory requirements.
+                                        </p>
+
+                                        <p>
+                                            The Applicant acknowledges their duty to safeguard and promote the
+                                            welfare of all women, women living with diverse vulnerabilities,
+                                            children, young people, and vulnerable adults with whom they may come
+                                            into contact during the course of their employment.
+                                        </p>
+                                    </div>
+
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="declarationAgreeCheck" required>
+                                        <label class="form-check-label" for="declarationAgreeCheck">
+                                            I have read and agree to the above terms and conditions, and I declare that the information provided in this application is true, accurate, and complete to the best of my knowledge and belief.
+                                        </label>
+                                    </div>
+
+                                    <div id="declarationWarning" class="text-danger mt-2" style="display: none;">
+                                        Please agree to the declaration to submit your application.
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-between mt-4">
+                                    <button type="button" class="btn btn-secondary prev-tab"><i class="bi bi-arrow-left me-2"></i> Previous</button>
+                                    <button type="submit" class="btn btn-success" id="submitApplicationButton" disabled>
+                                        <i class="bi bi-send me-2"></i>Submit Application
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            }
+        </div>
+    </div>
+</main>
+
+<div class="modal fade" id="academicQualificationModal" tabindex="-1" aria-labelledby="academicModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="academicQualificationModalContent">
+            <div class="modal-body text-center py-5">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-2">Loading form...</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <script src="~/Scripts/applyJob.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            // ── Declaration checkbox enables submit button ────────────────
+            $('#declarationAgreeCheck').on('change', function () {
+                if ($(this).is(':checked')) {
+                    $('#submitApplicationButton').prop('disabled', false);
+                    $('#declarationWarning').hide();
+                } else {
+                    $('#submitApplicationButton').prop('disabled', true);
+                }
+            });
+
+            // ── Guard: block submission if required sections are empty ───
+            $('#jobApplicationForm').on('submit', function (e) {
+
+                var errors = [];
+
+                if ($('#academicQualificationsContainer tbody tr').length === 0) {
+                    errors.push('Academic Qualifications - please add at least one entry.');
+                }
+                if ($('#experiencesContainer tbody tr').length === 0) {
+                    errors.push('Work Experience - please add at least one entry.');
+                }
+                if ($('#professionalCoursesContainer tbody tr').length === 0) {
+                    errors.push('Professional Courses - please add at least one entry.');
+                }
+                if ($('#professionalMembershipsContainer tbody tr').length === 0) {
+                    errors.push('Professional Memberships - please add at least one entry.');
+                }
+
+                var requiredDocs = ['Curriculum Vitae', 'Cover Letter'];
+                var uploadedTypes = [];
+                $('#AttachmentsContainer tbody tr').each(function () {
+                    uploadedTypes.push($(this).find('td:first').text().trim());
+                });
+                var missingDocs = requiredDocs.filter(function (doc) {
+                    return uploadedTypes.indexOf(doc) === -1;
+                });
+                if (missingDocs.length > 0) {
+                    errors.push('Attachments - missing required documents: ' + missingDocs.join(', ') + '.');
+                }
+
+                var checkbox = $('#declarationAgreeCheck');
+                if (checkbox.length && !checkbox.is(':checked')) {
+                    errors.push('Declaration - please agree to the declaration before submitting.');
+                }
+
+                if (errors.length > 0) {
+                    e.preventDefault();
+                    var html = '<strong>Please complete the following before submitting:</strong><ul class="mb-0 mt-2">' + errors.map(function (msg) { return '<li>' + msg + '</li>'; }).join('') + '</ul>';
+                    var $alert = $('#submitValidationAlert');
+                    if ($alert.length === 0) {
+                        $('#declaration .card').prepend('<div id="submitValidationAlert" class="alert alert-danger mt-2">' + html + '</div>');
+                    } else {
+                        $alert.html(html).show();
+                    }
+                    window.scrollTo(0, 0);
+                }
+            });
+
+            // ── Tab Navigation (Next) ─────────────────────────────────────
+            // Uses the tab button list order so it always goes to the correct
+            // next visible tab — works whether declaration tab exists or not.
+            $('.next-tab').on('click', function () {
+                var currentTabPane = $(this).closest('.tab-pane');
+                var currentTabId = '#' + currentTabPane.attr('id');
+                var allTabButtons = $('#applicationTabs button[data-bs-toggle="tab"]');
+                var currentIndex = allTabButtons.index(
+                    allTabButtons.filter('[data-bs-target="' + currentTabId + '"]')
+                );
+                var nextTabButton = allTabButtons.eq(currentIndex + 1);
+                if (nextTabButton.length) {
+                    new bootstrap.Tab(nextTabButton[0]).show();
+                }
+            });
+
+            // ── Tab Navigation (Previous) ─────────────────────────────────
+            $('.prev-tab').on('click', function () {
+                var currentTabPane = $(this).closest('.tab-pane');
+                var currentTabId = '#' + currentTabPane.attr('id');
+                var allTabButtons = $('#applicationTabs button[data-bs-toggle="tab"]');
+                var currentIndex = allTabButtons.index(
+                    allTabButtons.filter('[data-bs-target="' + currentTabId + '"]')
+                );
+                var prevTabButton = allTabButtons.eq(currentIndex - 1);
+                if (prevTabButton.length) {
+                    new bootstrap.Tab(prevTabButton[0]).show();
+                }
+            });
+
+        });
+    </script>
+}

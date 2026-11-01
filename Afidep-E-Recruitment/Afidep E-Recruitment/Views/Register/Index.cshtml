@@ -1,0 +1,149 @@
+﻿@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<style>
+    /* Form wrapper (no background duplication) */
+    .register-header h2 {
+        font-size: 1.3rem;
+        margin-bottom: 20px;
+        color: #6A1B9A; /* ENAF purple */
+        text-align: center;
+        font-weight: 600;
+    }
+
+    .form-input,
+    .phone-input,
+    .country-code-select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #6A1B9A;
+        border-radius: 6px;
+        font-size: 0.95rem;
+    }
+
+    .form-group {
+        margin-bottom: 14px;
+    }
+
+    .loginbutton {
+        background-color: #6A1B9A;
+        color: #fff;
+        border: none;
+        padding: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        border-radius: 6px;
+        width: 100%;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+        .loginbutton:hover {
+            background-color: #8E24AA;
+        }
+
+    .auth-links {
+        text-align: center;
+        margin-top: 15px;
+        font-size: 0.9rem;
+    }
+
+        .auth-links a {
+            color: #6A1B9A;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+            .auth-links a:hover {
+                text-decoration: underline;
+            }
+</style>
+
+<!-- Header -->
+<div class="register-header">
+    <h2>Create Your ENAF Profile</h2>
+</div>
+
+<!-- Alerts -->
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<!-- Registration form -->
+@using (Html.BeginForm("RegisterForm", "Register", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <input type="text" name="firstname" class="form-input" placeholder="First Name" required />
+    </div>
+
+    <div class="form-group">
+        <input type="text" name="middlename" class="form-input" placeholder="Middle Name (optional)" />
+    </div>
+
+    <div class="form-group">
+        <input type="text" name="lastname" class="form-input" placeholder="Last Name" required />
+    </div>
+
+    <div class="form-group">
+        <input type="text" name="idnumber" class="form-input" placeholder="ID Number" required />
+    </div>
+
+    <div class="form-group">
+        <select name="countryCode" class="country-code-select" required>
+            <option value="" disabled selected>Select Country Code</option>
+            <option value="+254">Kenya (+254)</option>
+            <option value="+1">United States (+1)</option>
+            <option value="+44">United Kingdom (+44)</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <input type="tel" name="telephone" class="phone-input" placeholder="Telephone Number" required />
+    </div>
+
+    <div class="form-group">
+        <input type="email" name="email" class="form-input" placeholder="Email Address" required />
+    </div>
+
+    <button type="submit" class="loginbutton">Create Profile</button>
+
+    <div class="auth-links">
+        Already have an account?
+        <a href="@Url.Action("Index", "Login")">Login here</a>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const countrySelect = document.querySelector("select[name='countryCode']");
+            const phoneInput = document.querySelector("input[name='telephone']");
+
+            if (!countrySelect || !phoneInput) return;
+
+            countrySelect.addEventListener("change", function () {
+                const code = this.value;
+
+                // Remove any existing country code at start
+                phoneInput.value = phoneInput.value.replace(/^\+\d+\s*/, '');
+
+                if (code) {
+                    phoneInput.value = code + ' ';
+                    phoneInput.focus();
+                }
+            });
+        });
+    </script>
+
+}

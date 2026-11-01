@@ -1,0 +1,46 @@
+﻿@{
+    Layout = null; // Standalone layout for auth pages only
+    var title = ViewBag.Title ?? "ENAF Recruitment Portal";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="icon" type="image/png"
+          href="@Url.Content("~/Content/images/enaf-logo.png")" />
+
+    <!-- Core CSS -->
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+    <!-- AUTH ONLY STYLES (IMPORTANT) -->
+    <link href="~/Content/auth.css" rel="stylesheet" />
+</head>
+
+<body>
+
+    <!-- AUTH PAGE WRAPPER -->
+    <main class="auth-page">
+        <div class="loginbox">
+
+            <!-- LOGO -->
+            <div class="auth-logo">
+                <img src="~/Content/images/enaf-logo.png" alt="ENAF Logo" />
+            </div>
+
+            <!-- TITLE -->
+            <div class="portal-title">
+                Echo Network Africa Foundation
+            </div>
+
+            <!-- PAGE CONTENT -->
+            @RenderBody()
+
+        </div>
+    </main>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

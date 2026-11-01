@@ -1,0 +1,112 @@
+﻿@model Afidep_E_Recruitment.Controllers.HomeController.AvailableJobs
+
+@{
+    ViewBag.Title = Model.jobdescription;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container" style="max-width:860px; margin:40px auto;">
+
+    <!-- Header -->
+    <div style="background:#007bff; color:#fff; padding:30px; border-radius:6px;">
+        <h2 style="margin:0;">@Model.jobdescription</h2>
+        <p style="margin:8px 0 0;">
+            <strong>Contract:</strong> @Model.contracttype &nbsp;|&nbsp;
+            <strong>Posted:</strong> @Model.postingdate.ToString("dd MMM yyyy") &nbsp;|&nbsp;
+            <strong>Closing:</strong> @Model.closingdate.ToString("dd MMM yyyy")
+        </p>
+    </div>
+
+    <div style="margin-top:30px;">
+
+        <!-- Main Objective -->
+        @if (!string.IsNullOrEmpty(Model.mainobjective))
+        {
+            <h4>Main Objective</h4>
+            <p>@Model.mainobjective</p>
+        }
+
+        <!-- Responsibilities -->
+        @if (Model.jobresponsibilities != null && Model.jobresponsibilities.Any())
+        {
+            <h4>Key Responsibilities</h4>
+            <ul>
+                @foreach (var r in Model.jobresponsibilities)
+                {
+                    <li>@r.responsibility</li>
+                }
+            </ul>
+        }
+
+        <!-- Academic Qualifications -->
+        @if (Model.acadquals != null && Model.acadquals.Any())
+        {
+            <h4>Academic Qualifications</h4>
+            <ul>
+                @foreach (var q in Model.acadquals)
+                {
+                    <li><strong>@q.type</strong> — @q.description</li>
+                }
+            </ul>
+        }
+
+        <!-- Experience -->
+        @if (Model.experience != null && Model.experience.Any())
+        {
+            <h4>Experience Required</h4>
+            <ul>
+                @foreach (var e in Model.experience)
+                {
+                    <li>@e.minyears year(s) — @e.hlevel in @e.iname</li>
+                }
+            </ul>
+        }
+
+        <!-- Professional Qualifications -->
+        @if (Model.profquals != null && Model.profquals.Any())
+        {
+            <h4>Professional Qualifications</h4>
+            <ul>
+                @foreach (var p in Model.profquals)
+                {
+                    <li>@p.description (@p.level)</li>
+                }
+            </ul>
+        }
+
+        <!-- Professional Memberships -->
+        @if (Model.profmembs != null && Model.profmembs.Any())
+        {
+            <h4>Professional Memberships</h4>
+            <ul>
+                @foreach (var m in Model.profmembs)
+                {
+                    <li>@m.description — @m.profbody</li>
+                }
+            </ul>
+        }
+
+    </div>
+
+    <!-- Action Buttons -->
+    <div style="margin-top:30px; padding:20px; background:#f8f9fa; border-radius:6px;">
+
+        <!-- Download JD -->
+        <a href="@Url.Action("DownloadJD", "Job", new { requestid = Model.requestid })"
+           class="btn btn-default" target="_blank">
+            ⬇ Download Full JD
+        </a>
+
+        &nbsp;&nbsp;
+
+        <a href="@Url.Action("Index", "Login")"
+           style="background:#6A1B9A; color:#fff; padding:10px 28px; border-radius:6px; text-decoration:none; font-size:1rem;">
+            Apply Now
+        </a>
+
+        <p style="margin-top:10px; color:#888; font-size:13px;">
+            You will need to register or log in to submit your application.
+        </p>
+    </div>
+
+</div>

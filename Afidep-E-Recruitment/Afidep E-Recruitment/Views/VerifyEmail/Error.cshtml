@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = "Error";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<section class="loginarea">
+    <div class="top-side">
+        <img src="~/Content/images/afideplogo.png" alt="AFIDEP" class="topsidemage" />
+    </div>
+    <div class="loginbox">
+        <div class="loginbox-header">
+            <h1>Error!!!</h1>
+        </div>
+
+        <div class="icon-wrapper">
+            <svg class="xmark error-shake" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                <circle class="xmark__circle" cx="26" cy="26" r="25" fill="none" />
+                <path class="xmark__line xmark__line1" fill="none" d="M16 16 L36 36" />
+                <path class="xmark__line xmark__line2" fill="none" d="M36 16 L16 36" />
+            </svg>
+        </div>
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-error">
+                @TempData["ErrorMessage"]
+            </div>
+        }
+
+        <div class="loginform">
+            <div class="form-group">
+                <a href="@Url.Action("Index", "Login")" class="loginbutton">Go back to log in</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+

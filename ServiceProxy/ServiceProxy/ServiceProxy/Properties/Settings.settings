@@ -1,0 +1,9 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ServiceProxy.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ServiceProxy_Reference_Recruitment" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://167.86.124.32:7047/BC250/WS/ENA/Codeunit/PortalAPI</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

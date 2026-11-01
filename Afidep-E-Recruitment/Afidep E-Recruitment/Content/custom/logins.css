@@ -1,0 +1,228 @@
+﻿/* ===== NCCK Theme & Base ===== */
+:root {
+    --main-color: #0e426f; /* Deep navy from NCCK logo */
+    --secondary-color: #4D61A9; /* Light blue accent */
+    --text-color: #2E2E31; /* Neutral dark text */
+    --overlay-color: rgba(14, 66, 111, 0.55); /* Semi-transparent navy overlay */
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    flex-direction: column;
+    background: none;
+}
+
+/* ===== Static Background ===== */
+.bg-static {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background: url('../images/NCCKDASHBOARD.PNG') no-repeat center center / cover;
+}
+
+.bg-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: var(--overlay-color);
+}
+
+/* ===== Navbar ===== */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 40px;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    z-index: 10;
+}
+
+.navlogo {
+    width: 220px;
+    max-width: 100%;
+}
+
+.navright a, .loginbutton {
+    background-color: var(--main-color);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 6px;
+    border: none;
+    font-weight: 600;
+    transition: background 0.3s;
+}
+
+    .navright a:hover, .loginbutton:hover {
+        background-color: var(--secondary-color);
+    }
+
+/* ===== Centered Login Area ===== */
+.content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    z-index: 10;
+    padding: 20px;
+}
+
+.loginarea {
+    background: #fff;
+    border-radius: 10px;
+    padding: 30px 25px;
+    max-width: 420px;
+    width: 100%;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+}
+
+/* ===== Header with Logo ===== */
+.top-side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.topsidemage {
+    width: 140px;
+    margin-bottom: 15px;
+}
+
+.loginbox-header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-align: center;
+    color: var(--main-color);
+}
+
+/* ===== Forms ===== */
+.form-group {
+    margin: 15px 0;
+    display: flex;
+    flex-direction: column;
+    color: var(--text-color);
+}
+
+.form-input, .phone-input, .country-code-select {
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    padding: 10px 15px;
+    font-size: 1rem;
+    margin: 5px 0;
+}
+
+    .form-input:focus, .phone-input:focus {
+        border-color: var(--secondary-color);
+        outline: none;
+    }
+
+.phone-input-container {
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+.country-code-select {
+    width: 100px;
+    margin-right: -1px;
+}
+
+/* ===== Captcha Section ===== */
+.captcharea {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
+    background-color: #E1E1E1;
+    border-radius: 6px;
+    margin: 15px 0;
+}
+
+    .captcharea img {
+        width: 50%;
+        border: 1px solid #ccc;
+    }
+
+    .captcharea button {
+        background-color: var(--main-color);
+        color: #fff;
+        padding: 7px 15px;
+        border: none;
+        border-radius: 4px;
+    }
+
+        .captcharea button:hover {
+            background-color: #71C64F;
+        }
+
+/* ===== Buttons ===== */
+.loginbutton {
+    width: 70%;
+    margin: 15px auto;
+    display: block;
+    text-align: center;
+}
+
+/* ===== Footer ===== */
+footer {
+    text-align: center;
+    padding: 8px;
+    color: var(--main-color);
+    font-size: 0.85rem;
+}
+
+/* ===== Alerts ===== */
+.alert {
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px auto;
+    width: 85%;
+    text-align: center;
+}
+
+.alert-success {
+    background: #d0ffd7;
+    color: #093500;
+    border: 1px solid #093500;
+}
+
+.alert-error {
+    background: #fec4c4;
+    color: #790101;
+    border: 1px solid #790101;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 10px 20px;
+    }
+
+    .navlogo {
+        width: 160px;
+    }
+
+    .loginarea {
+        max-width: 90%;
+        padding: 20px;
+    }
+
+    .topsidemage {
+        width: 120px;
+    }
+
+    .loginbox-header h1 {
+        font-size: 1.4rem;
+    }
+}

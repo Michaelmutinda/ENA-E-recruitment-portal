@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:tns="urn:microsoft-dynamics-schemas/codeunit/PortalAPI" targetNamespace="urn:microsoft-dynamics-schemas/codeunit/PortalAPI" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <schema elementFormDefault="qualified" targetNamespace="urn:microsoft-dynamics-schemas/codeunit/PortalAPI" xmlns="http://www.w3.org/2001/XMLSchema">
+      <element name="AddJobApplication">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="args" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="AddJobApplication_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="AttachJobAppicationDocument">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="applicationnumber" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="documentpath" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="documenttype" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="AttachJobAppicationDocument_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GenerateJobSummary">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="no" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="base64Txt" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GenerateJobSummary_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="base64Txt" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetCountries">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="GetCountries_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetRequisitionJDAttachmentPath">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="requisitionNo" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetRequisitionJDAttachmentPath_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="InsertSharePointAttachment">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="applicationNo" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="fileName" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="fileUrl" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="InsertSharePointAttachment_Result">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="ModifyJobApplication">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="args" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="ModifyJobApplication_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="RetrieveAvailableJobDetails">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="args" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="RetrieveAvailableJobDetails_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="RetrieveAvailableJobs">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="args" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="RetrieveAvailableJobs_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="RetrieveJobApplication">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="args" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="RetrieveJobApplication_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="RetrieveUserJobApplications">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="args" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="RetrieveUserJobApplications_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+    </schema>
+  </types>
+  <message name="AddJobApplication">
+    <part name="parameters" element="tns:AddJobApplication" />
+  </message>
+  <message name="AddJobApplication_Result">
+    <part name="parameters" element="tns:AddJobApplication_Result" />
+  </message>
+  <message name="AttachJobAppicationDocument">
+    <part name="parameters" element="tns:AttachJobAppicationDocument" />
+  </message>
+  <message name="AttachJobAppicationDocument_Result">
+    <part name="parameters" element="tns:AttachJobAppicationDocument_Result" />
+  </message>
+  <message name="GenerateJobSummary">
+    <part name="parameters" element="tns:GenerateJobSummary" />
+  </message>
+  <message name="GenerateJobSummary_Result">
+    <part name="parameters" element="tns:GenerateJobSummary_Result" />
+  </message>
+  <message name="GetCountries">
+    <part name="parameters" element="tns:GetCountries" />
+  </message>
+  <message name="GetCountries_Result">
+    <part name="parameters" element="tns:GetCountries_Result" />
+  </message>
+  <message name="GetRequisitionJDAttachmentPath">
+    <part name="parameters" element="tns:GetRequisitionJDAttachmentPath" />
+  </message>
+  <message name="GetRequisitionJDAttachmentPath_Result">
+    <part name="parameters" element="tns:GetRequisitionJDAttachmentPath_Result" />
+  </message>
+  <message name="InsertSharePointAttachment">
+    <part name="parameters" element="tns:InsertSharePointAttachment" />
+  </message>
+  <message name="InsertSharePointAttachment_Result">
+    <part name="parameters" element="tns:InsertSharePointAttachment_Result" />
+  </message>
+  <message name="ModifyJobApplication">
+    <part name="parameters" element="tns:ModifyJobApplication" />
+  </message>
+  <message name="ModifyJobApplication_Result">
+    <part name="parameters" element="tns:ModifyJobApplication_Result" />
+  </message>
+  <message name="RetrieveAvailableJobDetails">
+    <part name="parameters" element="tns:RetrieveAvailableJobDetails" />
+  </message>
+  <message name="RetrieveAvailableJobDetails_Result">
+    <part name="parameters" element="tns:RetrieveAvailableJobDetails_Result" />
+  </message>
+  <message name="RetrieveAvailableJobs">
+    <part name="parameters" element="tns:RetrieveAvailableJobs" />
+  </message>
+  <message name="RetrieveAvailableJobs_Result">
+    <part name="parameters" element="tns:RetrieveAvailableJobs_Result" />
+  </message>
+  <message name="RetrieveJobApplication">
+    <part name="parameters" element="tns:RetrieveJobApplication" />
+  </message>
+  <message name="RetrieveJobApplication_Result">
+    <part name="parameters" element="tns:RetrieveJobApplication_Result" />
+  </message>
+  <message name="RetrieveUserJobApplications">
+    <part name="parameters" element="tns:RetrieveUserJobApplications" />
+  </message>
+  <message name="RetrieveUserJobApplications_Result">
+    <part name="parameters" element="tns:RetrieveUserJobApplications_Result" />
+  </message>
+  <portType name="PortalAPI_Port">
+    <operation name="AddJobApplication">
+      <input name="AddJobApplication" message="tns:AddJobApplication" />
+      <output name="AddJobApplication_Result" message="tns:AddJobApplication_Result" />
+    </operation>
+    <operation name="AttachJobAppicationDocument">
+      <input name="AttachJobAppicationDocument" message="tns:AttachJobAppicationDocument" />
+      <output name="AttachJobAppicationDocument_Result" message="tns:AttachJobAppicationDocument_Result" />
+    </operation>
+    <operation name="GenerateJobSummary">
+      <input name="GenerateJobSummary" message="tns:GenerateJobSummary" />
+      <output name="GenerateJobSummary_Result" message="tns:GenerateJobSummary_Result" />
+    </operation>
+    <operation name="GetCountries">
+      <input name="GetCountries" message="tns:GetCountries" />
+      <output name="GetCountries_Result" message="tns:GetCountries_Result" />
+    </operation>
+    <operation name="GetRequisitionJDAttachmentPath">
+      <input name="GetRequisitionJDAttachmentPath" message="tns:GetRequisitionJDAttachmentPath" />
+      <output name="GetRequisitionJDAttachmentPath_Result" message="tns:GetRequisitionJDAttachmentPath_Result" />
+    </operation>
+    <operation name="InsertSharePointAttachment">
+      <input name="InsertSharePointAttachment" message="tns:InsertSharePointAttachment" />
+      <output name="InsertSharePointAttachment_Result" message="tns:InsertSharePointAttachment_Result" />
+    </operation>
+    <operation name="ModifyJobApplication">
+      <input name="ModifyJobApplication" message="tns:ModifyJobApplication" />
+      <output name="ModifyJobApplication_Result" message="tns:ModifyJobApplication_Result" />
+    </operation>
+    <operation name="RetrieveAvailableJobDetails">
+      <input name="RetrieveAvailableJobDetails" message="tns:RetrieveAvailableJobDetails" />
+      <output name="RetrieveAvailableJobDetails_Result" message="tns:RetrieveAvailableJobDetails_Result" />
+    </operation>
+    <operation name="RetrieveAvailableJobs">
+      <input name="RetrieveAvailableJobs" message="tns:RetrieveAvailableJobs" />
+      <output name="RetrieveAvailableJobs_Result" message="tns:RetrieveAvailableJobs_Result" />
+    </operation>
+    <operation name="RetrieveJobApplication">
+      <input name="RetrieveJobApplication" message="tns:RetrieveJobApplication" />
+      <output name="RetrieveJobApplication_Result" message="tns:RetrieveJobApplication_Result" />
+    </operation>
+    <operation name="RetrieveUserJobApplications">
+      <input name="RetrieveUserJobApplications" message="tns:RetrieveUserJobApplications" />
+      <output name="RetrieveUserJobApplications_Result" message="tns:RetrieveUserJobApplications_Result" />
+    </operation>
+  </portType>
+  <binding name="PortalAPI_Binding" type="tns:PortalAPI_Port">
+    <binding transport="http://schemas.xmlsoap.org/soap/http" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+    <operation name="AddJobApplication">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/PortalAPI:AddJobApplication" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="AddJobApplication">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="AddJobApplication_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="AttachJobAppicationDocument">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/PortalAPI:AttachJobAppicationDocument" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="AttachJobAppicationDocument">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="AttachJobAppicationDocument_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="GenerateJobSummary">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/PortalAPI:GenerateJobSummary" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="GenerateJobSummary">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="GenerateJobSummary_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="GetCountries">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/PortalAPI:GetCountries" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="GetCountries">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="GetCountries_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="GetRequisitionJDAttachmentPath">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/PortalAPI:GetRequisitionJDAttachmentPath" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="GetRequisitionJDAttachmentPath">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="GetRequisitionJDAttachmentPath_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="InsertSharePointAttachment">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/PortalAPI:InsertSharePointAttachment" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="InsertSharePointAttachment">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="InsertSharePointAttachment_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="ModifyJobApplication">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/PortalAPI:ModifyJobApplication" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="ModifyJobApplication">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="ModifyJobApplication_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="RetrieveAvailableJobDetails">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/PortalAPI:RetrieveAvailableJobDetails" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="RetrieveAvailableJobDetails">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="RetrieveAvailableJobDetails_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="RetrieveAvailableJobs">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/PortalAPI:RetrieveAvailableJobs" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="RetrieveAvailableJobs">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="RetrieveAvailableJobs_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="RetrieveJobApplication">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/PortalAPI:RetrieveJobApplication" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="RetrieveJobApplication">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="RetrieveJobApplication_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="RetrieveUserJobApplications">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/PortalAPI:RetrieveUserJobApplications" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="RetrieveUserJobApplications">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="RetrieveUserJobApplications_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+  </binding>
+  <service name="PortalAPI">
+    <port name="PortalAPI_Port" binding="tns:PortalAPI_Binding">
+      <address location="http://167.86.124.32:7047/BC250/WS/ENA/Codeunit/PortalAPI" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+    </port>
+  </service>
+</definitions>

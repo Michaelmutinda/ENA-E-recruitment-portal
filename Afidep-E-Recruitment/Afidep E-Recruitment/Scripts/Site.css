@@ -1,0 +1,224 @@
+﻿/* ===== ENA Theme & Base ===== */
+:root {
+    --ena-primary: #0056A6;
+    --ena-accent: #007ACC;
+    --ena-pink: #e6005c;
+    --ena-bg: #F5F8FA;
+    --ena-text: #1a1a1a;
+    --ena-overlay: rgba(0,86,166,0.45);
+}
+
+html {
+    font-size: 16px;
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: 'Roboto', Arial, sans-serif;
+    color: var(--ena-text);
+    background: none !important; /* remove old ENALogo backgrounds */
+    position: relative;
+    display: block; /* ✅ allow .auth-page to control centering */
+}
+
+/* ===== Slideshow ===== */
+.bg-slideshow {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    overflow: hidden;
+}
+
+    .bg-slideshow .slide {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center center;
+        opacity: 0;
+        animation: fadeSlideshow 18s infinite;
+    }
+
+        /* Assign delays to each slide (works for 3 slides, add more if needed) */
+        .bg-slideshow .slide:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .bg-slideshow .slide:nth-child(2) {
+            animation-delay: 6s;
+        }
+
+        .bg-slideshow .slide:nth-child(3) {
+            animation-delay: 12s;
+        }
+
+/* Keyframes for fading slideshow */
+@keyframes fadeSlideshow {
+    0% {
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    30% {
+        opacity: 1;
+    }
+
+    40% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+/* overlay between slideshow and content for readability */
+.bg-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(var(--ena-overlay), rgba(0,0,0,0.18));
+}
+
+/* ===== Auth Page Layout (login/register) ===== */
+.auth-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 32px;
+}
+
+.auth-container {
+    width: 100%;
+    max-width: 1100px; /* give room for large card on desktop */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 10; /* above overlay */
+}
+
+/* login/register card */
+.loginarea {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loginbox {
+    width: 100%;
+    max-width: 760px;
+    padding: 40px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.96);
+    box-shadow: 0 18px 48px rgba(0,0,0,0.28);
+    border: 1px solid rgba(0,0,0,0.04);
+}
+
+/* headings */
+.loginbox-header {
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+    .loginbox-header h1 {
+        margin: 0;
+        font-size: 2.4rem;
+        color: var(--ena-primary);
+        font-weight: 700;
+    }
+
+    .loginbox-header h2 {
+        margin: 6px 0 0;
+        font-size: 1.25rem;
+        color: var(--ena-accent);
+        font-weight: 600;
+    }
+
+/* inputs + buttons (bigger) */
+.form-control, .form-select, input[type="text"], input[type="password"], input[type="email"], input[type="tel"] {
+    width: 100%;
+    font-size: 1.05rem;
+    padding: 14px 12px;
+    border-radius: 8px;
+    border: 1px solid #d6d6d6;
+    margin-bottom: 14px;
+    box-sizing: border-box;
+}
+
+.btn-primary {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    border-radius: 10px;
+    border: none;
+    background: var(--ena-primary);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.05rem;
+    cursor: pointer;
+}
+
+    .btn-primary:hover {
+        background: var(--ena-accent);
+    }
+
+/* links */
+a {
+    color: var(--ena-pink);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+    a:hover {
+        text-decoration: underline;
+        color: #fff;
+    }
+
+/* small devices */
+@media (max-width: 768px) {
+    html {
+        font-size: 15px;
+    }
+
+    .loginbox {
+        padding: 20px;
+        max-width: 420px;
+        border-radius: 10px;
+    }
+
+    .loginbox-header h1 {
+        font-size: 1.6rem;
+    }
+
+    .loginbox-header h2 {
+        font-size: 1.0rem;
+    }
+}
+
+/* ===== Generic content overrides to make pages feel large and bold ===== */
+h1, h2, h3 {
+    color: var(--ena-primary);
+}
+
+p {
+    line-height: 1.5;
+    font-size: 1.05rem;
+}
+
+/* sidebar / topbar tweaks (keep existing behavior but ensure colors) */
+#sidebar-wrapper {
+    background-color: var(--ena-primary) !important;
+    color: #fff;
+}
+
+.top-bar {
+    background-color: var(--ena-primary) !important;
+    color: #fff;
+}

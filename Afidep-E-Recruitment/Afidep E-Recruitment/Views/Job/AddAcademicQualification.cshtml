@@ -1,0 +1,137 @@
+﻿@model Afidep_E_Recruitment.Controllers.JobController.AcademicQualification
+
+
+<div class="modal-header">
+    <h5 class="modal-title" id="academicModalLabel">Add Academic Qualification</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+@using (Html.BeginForm("ApplicantEducation", "Job", FormMethod.Post, new { @id = "addAcademicQualForm", @class = "modal-body" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+
+    <input type="hidden" name="applicationNumber" id="modalapplicationNumber" value="@ViewBag.ApplicationNumber" />
+    <div class="row">
+        <div class="col-md-4 mb-1">
+            @Html.LabelFor(m => m.coursename, "Course Name", new { @class = "form-label" })
+            @Html.TextBoxFor(m => m.coursename, new { @class = "form-control", @placeholder = "e.g., Computer Science", @required = "required", @id = "coursename" })
+            @Html.ValidationMessageFor(m => m.coursename, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-4 mb-1">
+            @Html.LabelFor(m => m.fieldofstudy, "Field of Study", new { @class = "form-label" })
+            @Html.TextBoxFor(m => m.fieldofstudy, new { @class = "form-control", @placeholder = "e.g., Software Engineering", @required = "required" })
+            @Html.ValidationMessageFor(m => m.fieldofstudy, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 mb-1">
+            @Html.LabelFor(m => m.educationtype, "Education Type", new { @class = "form-label" })
+            @Html.DropDownListFor(m => m.educationtype, ViewBag.EducationTypes as SelectList, "Select Education Type", new { @class = "form-select", @required = "required" })
+            @Html.ValidationMessageFor(m => m.educationtype, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-4 mb-1">
+            @Html.LabelFor(m => m.educationlevel, "Education Level", new { @class = "form-label" })
+            @Html.DropDownListFor(m => m.educationlevel, ViewBag.EducationLevels as SelectList, "Select Level of Study", new { @class = "form-select", @required = "required" })
+            @Html.ValidationMessageFor(m => m.educationlevel, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-4 mb-1">
+            @Html.LabelFor(m => m.institutionname, "Institution Name", new { @class = "form-label" })
+            @Html.TextBoxFor(m => m.institutionname, new { @class = "form-control", @placeholder = "e.g., University of Nairobi", @required = "required" })
+            @Html.ValidationMessageFor(m => m.institutionname, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 mb-1">
+            @Html.LabelFor(m => m.country, "Country", new { @class = "form-label" })
+            @Html.DropDownListFor(m => m.country, ViewBag.Countries as SelectList, "Select Country", new { @class = "form-select", @required = "required" })
+            @Html.ValidationMessageFor(m => m.country, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-4 mb-1">
+            @Html.LabelFor(m => m.grade, "Grade", new { @class = "form-label" })
+            @Html.TextBoxFor(m => m.grade, new { @class = "form-control", @placeholder = "e.g., First Class Honours" })
+            @Html.ValidationMessageFor(m => m.grade, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 mb-1">
+            @Html.LabelFor(m => m.startdate, "Start Date", new { @class = "form-label" })
+            @Html.TextBoxFor(m => m.startdate, new { @class = "form-control", @type = "date", @required = "required" })
+            @Html.ValidationMessageFor(m => m.startdate, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-4 mb-1">
+            @Html.LabelFor(m => m.enddate, "End Date", new { @class = "form-label" })
+            @Html.TextBoxFor(m => m.enddate, new { @class = "form-control", @type = "date", @required = "required" })
+            @Html.ValidationMessageFor(m => m.enddate, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div id="academicLoadingSpinner" class="text-center my-3" style="display: none;">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Processing...</span>
+        </div>
+        <p class="mt-2">Saving academic qualification...</p>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="AddAcademicQualificationButton">Save Academic Qualification</button>
+    </div>
+}
+
+<script>
+    // Re-parse unobtrusive validation for the dynamically loaded form
+    $.validator.unobtrusive.parse("#addAcademicQualForm");
+
+    function RelocatePage(applicationNumber) {
+        setTimeout(() => {
+            window.location.href = `/Job/ApplyJob?applicationnumber=${applicationNumber}`;
+        }, 1000);
+    }
+
+    // Handle the AJAX form submission for the modal form
+    $('#AddAcademicQualificationButton').on('click', function () {
+        if (!$('#addAcademicQualForm').valid()) return;
+
+        $('#academicLoadingSpinner').show();
+        $('#AddAcademicQualificationButton').prop('disabled', true).text('Saving...');
+
+        const updateinputjson = {
+            applicationnumber: $('#modalapplicationNumber').val(),
+            modify_type: "academic_details",
+            application_details: {},
+        };
+
+
+        var academicqualifications = [];
+
+        academicqualifications.push({
+            coursename: $('#coursename').val(),
+            fieldofstudy: $('#fieldofstudy').val(),
+            educationtype: $('#educationtype').val(),
+            educationlevel: $('#educationlevel').val(),
+            country: $('#country').val(),
+            institutionname: $('#institutionname').val(),
+            grade: $('#grade').val(),
+            startdate: $('#startdate').val(),
+            enddate: $('#enddate').val(),
+        });
+
+        updateinputjson.application_details = {
+            academicqualifications: academicqualifications,
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/Job/EditJobApp",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(updateinputjson),
+            success: function (response) {
+                RelocatePage(updateinputjson.applicationnumber);
+            },
+            error: function () {
+                RelocatePage(updateinputjson.applicationnumber);
+            }
+        });
+    });
+</script>
