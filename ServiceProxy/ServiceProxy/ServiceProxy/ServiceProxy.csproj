@@ -95,6 +95,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="SimulatedBusinessCentral.cs" />
     <Compile Include="ProxyService.asmx.cs">
       <DependentUpon>ProxyService.asmx</DependentUpon>
       <SubType>Component</SubType>

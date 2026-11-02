@@ -191,6 +191,31 @@ namespace Afidep_E_Recruitment.Models
 
 
 
+        // HR screening: every job requisition (open and closed), and every application for one
+        public string RetrieveRequisitions(string arguments)
+        {
+            try
+            {
+                return _client.RetrieveRequisitions(arguments);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Could not load the job requisitions. " + ex.Message);
+            }
+        }
+
+        public string RetrieveRequisitionApplications(string arguments)
+        {
+            try
+            {
+                return _client.RetrieveRequisitionApplications(arguments);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Could not load the job's applications. " + ex.Message);
+            }
+        }
+
         public string GetCountries()
         {
             try

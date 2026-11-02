@@ -106,6 +106,7 @@ namespace ServiceProxy
         public string RetrieveJobApplications(string arguments)
         {
             ValidateSectionAccess(new[] { "PORTAL" });
+            if (SimulatedBusinessCentral.Enabled) return SimulatedBusinessCentral.RetrieveUserJobApplications(arguments);
             return _client.RetrieveUserJobApplications(arguments).Replace("\\", "\\\\");
         }
 
@@ -113,28 +114,28 @@ namespace ServiceProxy
         public string GetCountries()
         {
             ValidateSectionAccess(new[] { "PORTAL" });
-            return _client.GetCountries();
+            return SimulatedBusinessCentral.Enabled ? SimulatedBusinessCentral.GetCountries() : _client.GetCountries();
         }
 
         [WebMethod]
         public string RetrieveJobApplication(string arguments)
         {
             ValidateSectionAccess(new[] { "PORTAL" });
-            return _client.RetrieveJobApplication(arguments);
+            return SimulatedBusinessCentral.Enabled ? SimulatedBusinessCentral.RetrieveJobApplication(arguments) : _client.RetrieveJobApplication(arguments);
         }
 
         [WebMethod]
         public string RetrieveOpenJobs(string arguments)
         {
             ValidateSectionAccess(new[] { "PORTAL" });
-            return _client.RetrieveAvailableJobs(arguments);
+            return SimulatedBusinessCentral.Enabled ? SimulatedBusinessCentral.RetrieveAvailableJobs(arguments) : _client.RetrieveAvailableJobs(arguments);
         }
 
         [WebMethod]
         public string GetAvailableJobDetails(string arguments)
         {
             ValidateSectionAccess(new[] { "PORTAL" });
-            return _client.RetrieveAvailableJobDetails(arguments);
+            return SimulatedBusinessCentral.Enabled ? SimulatedBusinessCentral.RetrieveAvailableJobDetails(arguments) : _client.RetrieveAvailableJobDetails(arguments);
         }
 
 
@@ -143,21 +144,22 @@ namespace ServiceProxy
         public string AddJobApplication(string arguments)
         {
             ValidateSectionAccess(new[] { "PORTAL" });
-            return _client.AddJobApplication(arguments);
+            return SimulatedBusinessCentral.Enabled ? SimulatedBusinessCentral.AddJobApplication(arguments) : _client.AddJobApplication(arguments);
         }
 
         [WebMethod]
         public string ModifyJobApplication(string arguments)
         {
             ValidateSectionAccess(new[] { "PORTAL" });
-            return _client.ModifyJobApplication(arguments);
+            return SimulatedBusinessCentral.Enabled ? SimulatedBusinessCentral.ModifyJobApplication(arguments) : _client.ModifyJobApplication(arguments);
         }
 
         [WebMethod]
         public string AddJobAttachment(string applicationnumber, string documentpath, string documenttype)
         {
             ValidateSectionAccess(new[] { "PORTAL" });
-            return _client.AttachJobAppicationDocument(applicationnumber, documentpath, documenttype);
+            return SimulatedBusinessCentral.Enabled ? SimulatedBusinessCentral.AttachJobAppicationDocument(applicationnumber, documentpath, documenttype)
+                : _client.AttachJobAppicationDocument(applicationnumber, documentpath, documenttype);
         }
 
         [WebMethod]
@@ -168,11 +170,30 @@ namespace ServiceProxy
             //_client.GenerateJobSummary(arguments, ref(statementvariable));
             return statementvariable;
         }
+
+        // HR screening: every job requisition, and every application for one. Business Central's PortalAPI has no such
+        // functions yet (they need adding there); until then only the test mode answers.
+        [WebMethod]
+        public string RetrieveRequisitions(string arguments)
+        {
+            ValidateSectionAccess(new[] { "PORTAL" });
+            if (SimulatedBusinessCentral.Enabled) return SimulatedBusinessCentral.RetrieveRequisitions(arguments);
+            throw new SoapException("Business Central's PortalAPI has no function to list job requisitions yet", SoapException.ServerFaultCode);
+        }
+
+        [WebMethod]
+        public string RetrieveRequisitionApplications(string arguments)
+        {
+            ValidateSectionAccess(new[] { "PORTAL" });
+            if (SimulatedBusinessCentral.Enabled) return SimulatedBusinessCentral.RetrieveRequisitionApplications(arguments);
+            throw new SoapException("Business Central's PortalAPI has no function to list a job's applications yet", SoapException.ServerFaultCode);
+        }
+
         [WebMethod]
         public string GetRequisitionJDAttachmentPath(string requisitionNo)
         {
             ValidateSectionAccess(new[] { "PORTAL" });
-            return _client.GetRequisitionJDAttachmentPath(requisitionNo);
+            return SimulatedBusinessCentral.Enabled ? SimulatedBusinessCentral.GetRequisitionJDAttachmentPath(requisitionNo) : _client.GetRequisitionJDAttachmentPath(requisitionNo);
         }
 
         [WebMethod]
@@ -183,6 +204,11 @@ namespace ServiceProxy
         {
             ValidateSectionAccess(new[] { "PORTAL" });
 
+            if (SimulatedBusinessCentral.Enabled)
+            {
+                SimulatedBusinessCentral.InsertSharePointAttachment(applicationNo, fileName, fileUrl);
+                return;
+            }
             _client.InsertSharePointAttachment(
                 applicationNo,
                 fileName,

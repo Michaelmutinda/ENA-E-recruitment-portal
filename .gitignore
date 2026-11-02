@@ -4,3 +4,6 @@ obj/
 packages/
 *.user
 *.suo
+# local test-mode settings (never commit)
+Test.appSettings.config
+ServiceProxy/ServiceProxy/ServiceProxy/Downloads/

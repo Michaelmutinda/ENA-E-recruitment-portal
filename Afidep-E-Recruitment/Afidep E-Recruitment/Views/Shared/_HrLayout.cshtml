@@ -1,0 +1,60 @@
+﻿@*
+    _HrLayout.cshtml – ENAF Recruitment Portal, HR area (screening)
+*@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - ENAF Recruitment HR</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" href="@Url.Content("~/Content/images/enaf-logo.png")" />
+    @Styles.Render("~/Content/css")
+    <style>
+        :root { --enaf-primary: #6A1B9A; --enaf-accent: #E53935; }
+        body { background: #f6f6f8; font-family: "Segoe UI", Arial, sans-serif; }
+        .hr-nav { background: #fff; border-bottom: 3px solid var(--enaf-primary); }
+        .hr-nav img { height: 40px; }
+        .hr-nav .brand { color: var(--enaf-primary); font-weight: 600; }
+        .btn-enaf { background: var(--enaf-primary); color: #fff; }
+        .btn-enaf:hover { background: #4a1270; color: #fff; }
+        .card { border: 0; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+        .score { font-weight: 700; font-size: 1.1rem; }
+        .reason { font-size: .875rem; }
+        .tie { font-size: .85rem; background: #fff8e1; border-left: 3px solid #f9a825; padding: 4px 8px; margin-top: 6px; }
+        .check-ok { color: #2e7d32; }
+        .check-no { color: #c62828; }
+        tr.shortlisted td:first-child { border-left: 4px solid #2e7d32; }
+        .bar { height: 6px; background: #eee; border-radius: 3px; overflow: hidden; }
+        .bar > span { display: block; height: 100%; background: var(--enaf-primary); }
+    </style>
+</head>
+<body>
+    <nav class="hr-nav px-4 py-2 d-flex align-items-center justify-content-between">
+        <a href="@Url.Action("Index", "Hr")" class="d-flex align-items-center gap-2 text-decoration-none">
+            <img src="@Url.Content("~/Content/images/enaf-logo.png")" alt="ENAF" />
+            <span class="brand">Recruitment – HR screening</span>
+        </a>
+        @if (ViewBag.HrUser != null)
+        {
+            <div class="d-flex align-items-center gap-3">
+                <span class="text-muted">@ViewBag.HrUser</span>
+                <a class="btn btn-outline-secondary btn-sm" href="@Url.Action("Logout", "Hr")">Sign out</a>
+            </div>
+        }
+    </nav>
+    <main class="container-fluid px-4 py-4">
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+        }
+        @RenderBody()
+    </main>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

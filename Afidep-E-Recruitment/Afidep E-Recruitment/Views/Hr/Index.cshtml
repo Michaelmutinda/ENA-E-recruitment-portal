@@ -1,0 +1,51 @@
+﻿@model List<Afidep_E_Recruitment.Controllers.HrController.Requisition>
+@{
+    ViewBag.Title = "Jobs";
+    Layout = "~/Views/Shared/_HrLayout.cshtml";
+    var runs = ViewBag.Runs as Dictionary<string, Afidep_E_Recruitment.Models.Screening.ScreeningStore.RunSummary>
+               ?? new Dictionary<string, Afidep_E_Recruitment.Models.Screening.ScreeningStore.RunSummary>();
+}
+<h3 class="mb-3">Job requisitions</h3>
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+<div class="card">
+    <table class="table table-hover mb-0 align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>Requisition</th>
+                <th>Job</th>
+                <th>Closing date</th>
+                <th class="text-end">Submitted</th>
+                <th class="text-end">Drafts</th>
+                <th>Screening</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var j in Model)
+            {
+                runs.TryGetValue(j.requestid, out var run);
+                var open = j.closingdate.Date >= DateTime.Today;
+                <tr>
+                    <td>@j.requestid</td>
+                    <td><strong>@j.jobdescription</strong><div class="text-muted small">@j.contracttype</div></td>
+                    <td>@j.closingdate.ToString("d MMM yyyy") @if (open) { <span class="badge bg-success ms-1">open</span> } else { <span class="badge bg-secondary ms-1">closed</span> }</td>
+                    <td class="text-end">@j.submitted</td>
+                    <td class="text-end text-muted">@j.drafts</td>
+                    <td>
+                        @if (run == null) { <span class="text-muted">not screened</span> }
+                        else
+                        {
+                            <span>@run.Longlisted longlisted</span>
+                            if (run.Stage == "Shortlist") { <span>· <strong>@run.Shortlisted shortlisted</strong></span> }
+                            <div class="text-muted small">@run.RunAt.ToString("d MMM yyyy HH:mm") by @run.RunBy</div>
+                        }
+                    </td>
+                    <td class="text-end"><a class="btn btn-enaf btn-sm" href="@Url.Action("Job", "Hr", new { id = j.requestid })">Screen</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

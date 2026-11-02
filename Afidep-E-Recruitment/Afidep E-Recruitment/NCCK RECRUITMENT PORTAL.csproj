@@ -51,6 +51,44 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
+    <Reference Include="UglyToad.PdfPig">
+      <HintPath>..\packages\PdfPig.0.1.16\lib\net471\UglyToad.PdfPig.dll</HintPath>
+    </Reference>
+    <Reference Include="UglyToad.PdfPig.Core">
+      <HintPath>..\packages\PdfPig.0.1.16\lib\net471\UglyToad.PdfPig.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="UglyToad.PdfPig.DocumentLayoutAnalysis">
+      <HintPath>..\packages\PdfPig.0.1.16\lib\net471\UglyToad.PdfPig.DocumentLayoutAnalysis.dll</HintPath>
+    </Reference>
+    <Reference Include="UglyToad.PdfPig.Fonts">
+      <HintPath>..\packages\PdfPig.0.1.16\lib\net471\UglyToad.PdfPig.Fonts.dll</HintPath>
+    </Reference>
+    <Reference Include="UglyToad.PdfPig.Package">
+      <HintPath>..\packages\PdfPig.0.1.16\lib\net471\UglyToad.PdfPig.Package.dll</HintPath>
+    </Reference>
+    <Reference Include="UglyToad.PdfPig.Tokenization">
+      <HintPath>..\packages\PdfPig.0.1.16\lib\net471\UglyToad.PdfPig.Tokenization.dll</HintPath>
+    </Reference>
+    <Reference Include="UglyToad.PdfPig.Tokens">
+      <HintPath>..\packages\PdfPig.0.1.16\lib\net471\UglyToad.PdfPig.Tokens.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory">
+      <HintPath>..\packages\System.Memory.4.6.0\lib\net462\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Buffers">
+      <HintPath>..\packages\System.Buffers.4.6.0\lib\net462\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.1.0\lib\net462\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics.Vectors">
+      <HintPath>..\packages\System.Numerics.Vectors.4.6.0\lib\net462\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.HashCode">
+      <HintPath>..\packages\Microsoft.Bcl.HashCode.6.0.0\lib\net462\Microsoft.Bcl.HashCode.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
@@ -120,6 +158,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\HrController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JobController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -133,6 +172,11 @@
     <Compile Include="Models\HelperClasses.cs" />
     <Compile Include="Models\HelperFunctions.cs" />
     <Compile Include="Models\OptionClasses.cs" />
+    <Compile Include="Models\ProxyServiceHr.cs" />
+    <Compile Include="Models\Screening\DocumentTextReader.cs" />
+    <Compile Include="Models\Screening\ScreeningEngine.cs" />
+    <Compile Include="Models\Screening\ScreeningModels.cs" />
+    <Compile Include="Models\Screening\ScreeningStore.cs" />
     <Compile Include="Models\ProxyClient.cs" />
     <Compile Include="Models\UserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -216,6 +260,11 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\Site.css" />
+    <Content Include="Views\Hr\Index.cshtml" />
+    <Content Include="Views\Hr\Job.cshtml" />
+    <Content Include="Views\Hr\Login.cshtml" />
+    <Content Include="Views\Shared\_HrLayout.cshtml" />
+    <Content Include="Database\HrScreening.sql" />
     <Content Include="Views\Job\Index.cshtml" />
     <Content Include="Views\Job\ApplyJob.cshtml" />
     <Content Include="Views\Job\AddAcademicQualification.cshtml" />
